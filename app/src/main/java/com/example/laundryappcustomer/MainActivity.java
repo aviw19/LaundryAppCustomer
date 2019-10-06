@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    public void firebaseChecking()
-    {
+
+    public void firebaseChecking() {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
 
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
     private void settingCallBack() {
         mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
@@ -195,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(number,60, TimeUnit.SECONDS,this,mCallBacks);
         Toast.makeText(MainActivity.this, "OTP Sent", Toast.LENGTH_SHORT).show();
     }
+
     private void showHelp() {
         Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
         startActivity(intent);

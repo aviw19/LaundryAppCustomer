@@ -41,11 +41,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     EditText mTextRoomNo;
     Button mSignUp;
     TextView mTextViewLogin;
-    Button b;
-    String contactnumber;
-    String AreaofService;
-    String UserName;
-    String Password;
     String FullName;
     String Email;
     Spinner spinner;
@@ -56,21 +51,16 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     final DatabaseReference table_user = firebaseDatabase.getReference("Customer");
 
     GoogleSignInClient mGoogleSignInClient;
-    String[] items = new String[]{"AH1", "AH2", "AH3", "AH4", "AH5", "AH6", "AH7", "AH8", "AH9", "CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "DH1", "DH2", "DH3", "DH4"};
+    String[] mHostelList = new String[]{"SELECT ONE","AH1", "AH2", "AH3", "AH4", "AH5", "AH6", "AH7", "AH8", "AH9", "CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "DH1", "DH2", "DH3", "DH4"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        //initialize firebase
-
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         mTextEmailId = findViewById(R.id.emailid);
         mTextFullName = findViewById(R.id.register_name);
         mSignUp = findViewById(R.id.register_SIGNUP);
@@ -78,8 +68,20 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         mTextUsername = findViewById(R.id.register_username);
         mTextViewLogin = findViewById(R.id.register_login);
         mTextRoomNo = findViewById(R.id.room_no);
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.hostel);
+        buttonsWork();
+        spinnersWork();
+    }
 
+    private void spinnersWork() {
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(RegisterActivity.this, android.R.layout.simple_spinner_item, mHostelList);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter2);
+        spinner.setOnItemSelectedListener(RegisterActivity.this);
+    }
+
+    private void buttonsWork() {
+        //google sign in Button
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -89,15 +91,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
-
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(RegisterActivity.this, android.R.layout.simple_spinner_item, items);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter2);
-        spinner.setOnItemSelectedListener(RegisterActivity.this);
-
-
-
+        // already have an account
         mTextViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,13 +99,13 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 startActivity(LoginIntent);
             }
         });
+        //sign up button
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final ProgressDialog mDialog = new ProgressDialog(RegisterActivity.this);
                 mDialog.setMessage("please Wait...");
                 mDialog.show();
-
                 table_user.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -119,8 +113,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                             mDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "INVALID USERNAME", Toast.LENGTH_SHORT).show();
                             mTextUsername.getText().clear();
-                        } else {
-
+                        }
+                        else {
                             if (dataSnapshot.child(mTextUsername.getText().toString()).exists()) {
                                 mDialog.dismiss();
                                 Toast.makeText(RegisterActivity.this, "USER ALREADY REGISTERED", Toast.LENGTH_SHORT).show();
@@ -129,7 +123,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 mTextUsername.getText().clear();
                                 mTextFullName.getText().clear();
                                 mTextRoomNo.getText().clear();
-                            } else {
+                            }
+                            else {
                                 mDialog.dismiss();
                                 Customer user = new Customer(mTextFullName.getText().toString(), mTextBitsId.getText().toString(), mTextEmailId.getText().toString(), hostel, mTextRoomNo.getText().toString(), null);
                                 table_user.child(mTextUsername.getText().toString()).setValue(user);
@@ -155,7 +150,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 });
             }
         });
-
     }
 
     @Override
@@ -199,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             mTextBitsId = alertLayout.findViewById(R.id.bitsid_Google);
             mTextUsername = alertLayout.findViewById(R.id.ContactNumber);
             mTextRoomNo = alertLayout.findViewById(R.id.Room_No_google);
-            ArrayAdapter adapter = new ArrayAdapter<>(RegisterActivity.this, android.R.layout.simple_spinner_item, items);
+            ArrayAdapter adapter = new ArrayAdapter<>(RegisterActivity.this, android.R.layout.simple_spinner_item, mHostelList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             spinner2.setAdapter(adapter);
@@ -266,7 +260,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         }
 
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
