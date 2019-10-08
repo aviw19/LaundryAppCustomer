@@ -1,18 +1,54 @@
 package com.example.laundryappcustomer;
 
+import java.util.ArrayList;
+
 public class Customer {
-    public Customer(String name, String collegeId, String emailid, String hostelno, String roomno, Order ob) {
-        Name = name;
-        CollegeId = collegeId;
-        this.emailid = emailid;
-        this.hostelno = hostelno;
-        this.roomno = roomno;
-        this.ob = ob;
+    private String Name;
+    private String CollegeId;
+    private String emailId;
+    private String hostelNo;
+    private String roomNo;
+    private String phoneno;
+    private String orderCount;
+    private ArrayList<Order> OrderList;
+
+    public Customer() {
     }
 
-    public Customer()
-    {
-}
+    Customer(String name, String collegeId, String emailId, String hostelno, String roomNo, String phoneno, String OrderCount,ArrayList<Order> orderList) {
+        Name = name;
+        CollegeId = collegeId;
+        this.emailId = emailId;
+        this.hostelNo = hostelno;
+        this.roomNo = roomNo;
+        this.phoneno = phoneno;
+        this.orderCount = OrderCount;
+        this.OrderList = orderList;
+    }
+
+    public ArrayList<Order> getOrderList() {
+        return OrderList;
+    }
+
+    public void setOrderList(ArrayList<Order> orderList) {
+        OrderList = orderList;
+    }
+
+    public String getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(String orderCount) {
+        this.orderCount = orderCount;
+    }
+
+    public String getHostelNo() {
+        return hostelNo;
+    }
+
+    public void setHostelNo(String hostelNo) {
+        this.hostelNo = hostelNo;
+    }
 
     public String getName() {
         return Name;
@@ -30,43 +66,27 @@ public class Customer {
         CollegeId = collegeId;
     }
 
-    public String getEmailid() {
-        return emailid;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setEmailid(String emailid) {
-        this.emailid = emailid;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
-    public String getHostelno() {
-        return hostelno;
+    public String getRoomNo() {
+        return roomNo;
     }
 
-    public void setHostelno(String hostelno) {
-        this.hostelno = hostelno;
+    public void setRoomNo(String roomNo) {
+        this.roomNo = roomNo;
     }
 
-    public String getRoomno() {
-        return roomno;
+    public String getPhoneno() {
+        return phoneno;
     }
 
-    public void setRoomno(String roomno) {
-        this.roomno = roomno;
+    public void setPhoneno(String phoneno) {
+        this.phoneno = phoneno;
     }
-
-    public Order getOb() {
-        return ob;
-    }
-
-    public void setOb(Order ob) {
-        this.ob = ob;
-    }
-
-    private String Name;
-    private String CollegeId;
-    private String emailid;
-    private String hostelno;
-    private String roomno;
-    Order ob=new Order();
-
 }

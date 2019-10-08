@@ -126,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                             }
                             else {
                                 mDialog.dismiss();
-                                Customer user = new Customer(mTextFullName.getText().toString(), mTextBitsId.getText().toString(), mTextEmailId.getText().toString(), hostel, mTextRoomNo.getText().toString(), null);
+                                Customer user = new Customer(mTextFullName.getText().toString(), mTextBitsId.getText().toString(), mTextEmailId.getText().toString(), hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null);
                                 table_user.child(mTextUsername.getText().toString()).setValue(user);
                                 Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                 mTextRoomNo.getText().clear();
@@ -226,7 +226,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
                                 } else {
 
-                                    Customer user = new Customer(FullName, mTextBitsId.getText().toString(), Email, hostel, mTextRoomNo.getText().toString(), null);
+                                    Customer user = new Customer(FullName, mTextBitsId.getText().toString(), Email, hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null);
                                     table_user.child(mTextUsername.getText().toString()).setValue(user);
                                     Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                     mTextBitsId.getText().clear();

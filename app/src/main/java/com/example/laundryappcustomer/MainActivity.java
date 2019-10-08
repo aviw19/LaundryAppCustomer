@@ -103,8 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if (dataSnapshot.child(phoneNumber).exists())
                 {
-
-                    Common.currentUser = dataSnapshot.getValue(Customer.class);
+                    for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
+                        Common.currentUser = userSnapshot.getValue(Customer.class);
+                    }
                     loginUser();
                 }
                 else
