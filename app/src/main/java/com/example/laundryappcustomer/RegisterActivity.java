@@ -134,10 +134,10 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 mTextEmailId.getText().clear();
                                 mTextUsername.getText().clear();
                                 mTextFullName.getText().clear();
-
+                                finish();
                                 Intent toLogin = new Intent(RegisterActivity.this, HomeActivity.class);
                                 startActivity(toLogin);
-                                finish();
+
                             }
                         }
                     }
