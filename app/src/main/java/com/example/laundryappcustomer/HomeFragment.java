@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
     private TextView mTextComment;
     private String OrderID;
     ArrayList<Order> OrderList = new ArrayList<>();
-
+    private String mComment;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference table_user = firebaseDatabase.getReference("Requests");
     @Nullable
@@ -58,19 +58,24 @@ public class HomeFragment extends Fragment {
         mCard4=rootView.findViewById(R.id.Card4);
         mCard5=rootView.findViewById(R.id.Card5);
         mCard6=rootView.findViewById(R.id.Card6);
-        getCurrentOrderList();
+        //getCurrentOrderList();
         actions();
        return rootView;
     }
 
     private void getCurrentOrderList() {
-        DatabaseReference db = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno()).child("Orders");
+        DatabaseReference db = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if(ds.child("Order").exists()){
                     Order ol = ds.getValue(Order.class);
-                    OrderList.add(ol);
+                    OrderList.add(ol);}
+                    else
+                    {
+                        Toast.makeText(getActivity(),"ABHI ORDER HAIHI NAHI",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
             @Override
@@ -80,6 +85,7 @@ public class HomeFragment extends Fragment {
         db.addValueEventListener(eventListener);
         Common.OrderList=OrderList;
     }
+
 
     private void actions() {
         //first card View
@@ -94,10 +100,11 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
-                        makingRequest(mTextComment.getText().toString());
+                        mComment=mTextComment.getText().toString();
+                        makingRequest();
                         updatingOrderNo();
                         updateCurrentUser();
-                        updateOrderList(mTextComment.getText().toString());
+                        updateOrderList();
                     }
                 });
                 alert.setView(alertLayout);
@@ -106,13 +113,14 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateOrderList(final String mComment) {
+    private void updateOrderList() {
         //update Orders of User and also make a Order LIST IN USER. WITH CLASS USER
         Order n=new Order(mComment,"REQUESTED","0KG",OrderID);
         Common.OrderList.add(n);
-        DatabaseReference db=firebaseDatabase.getReference(Common.currentUser.getPhoneno());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference db=firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
         for(Order oL: Common.OrderList) {
-                    db.child("Orders").setValue(oL);
+                    db.child("Orders").child(OrderID).setValue(oL);
         }
     }
 
@@ -131,13 +139,13 @@ public class HomeFragment extends Fragment {
         Common.currentUser.setOrderCount(String.valueOf(count));
     }
 
-    private void makingRequest(final String mComment) {
+    private void makingRequest() {
         table_user.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Requests mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID);
                 table_user.child(OrderID).setValue(mReq);
-               // Toast.makeText(getContext(),"Request For Collection is Done",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Request For Collection is Done",Toast.LENGTH_SHORT).show();
             }
 
             @Override

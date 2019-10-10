@@ -1,8 +1,7 @@
 package com.example.laundryappcustomer;
 
-import java.io.Serializable;
 
-public class Order implements Serializable {
+public class Order {
     private String Comments;
     private String Status;
     private String Weight="0";

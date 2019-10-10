@@ -1,0 +1,60 @@
+{
+  "Category" : {
+    "01" : {
+      "Image" : "URL",
+      "Name" : "Shirt",
+      "Price" : "10"
+    },
+    "02" : {
+      "Image" : "URL",
+      "Name" : "Tshirt",
+      "Price" : "20"
+    }
+  },
+  "Customer" : {
+    "7351417137" : {
+      "collegeId" : "2018A7PS0375G",
+      "emailid" : "mk.mittal1999@gmail.com",
+      "hostelno" : "AH7",
+      "name" : "Mayank mittal",
+      "roomno" : "107"
+    },
+    "7777777777" : {
+      "collegeId" : "2018A7PS0375G",
+      "emailid" : "mk.mittal1999@gmail.com",
+      "hostelno" : "AH1",
+      "name" : "Test",
+      "roomno" : "107"
+    }
+  },
+  "Merchant" : {
+    "7351417137" : {
+      "area" : "goa",
+      "name" : "Mayank Mittal",
+      "payment" : "0",
+      "verification" : "Not Done",
+      "verificationDocument" : "aadhar"
+    },
+    "7777777777" : {
+      "area" : "Goa",
+      "name" : "Test",
+      "payment" : "0",
+      "verification" : "Not Done",
+      "verificationDocument" : "Aadhar"
+    },
+    "8630147110" : {
+      "area" : "goa",
+      "name" : "Mayank ",
+      "payment" : "0",
+      "verification" : "Not Done",
+      "verificationDocument" : "aadhar"
+    }
+  },
+  "Requests" : {
+    "userID" : {
+      "Comments" : "2018A7PS0375G",
+      "Status" : "mk.mittal1999@gmail.com",
+      "Weight" : "AH7"
+    }
+  }	
+}
