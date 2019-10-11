@@ -25,12 +25,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
@@ -46,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     Spinner spinner;
     Spinner spinner2;
     String hostel;
+    String token;
     private static final int RC_SIGN_IN = 9001;
     final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     final DatabaseReference table_user = firebaseDatabase.getReference("Customer");
@@ -126,7 +130,12 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                             }
                             else {
                                 mDialog.dismiss();
-                                Customer user = new Customer(mTextFullName.getText().toString(), mTextBitsId.getText().toString(), mTextEmailId.getText().toString(), hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null);
+
+                                FirebaseTokeGeneration.main();
+
+                                token=FirebaseTokeGeneration.token;
+
+                                Customer user = new Customer(mTextFullName.getText().toString(), mTextBitsId.getText().toString(), mTextEmailId.getText().toString(), hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null,token);
                                 table_user.child(mTextUsername.getText().toString()).setValue(user);
                                 Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                 mTextRoomNo.getText().clear();
@@ -151,6 +160,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             }
         });
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -225,8 +235,11 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
 
                                 } else {
+                                    FirebaseTokeGeneration.main();
 
-                                    Customer user = new Customer(FullName, mTextBitsId.getText().toString(), Email, hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null);
+                                    token=FirebaseTokeGeneration.token;
+
+                                    Customer user = new Customer(FullName, mTextBitsId.getText().toString(), Email, hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null,token);
                                     table_user.child(mTextUsername.getText().toString()).setValue(user);
                                     Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                     mTextBitsId.getText().clear();

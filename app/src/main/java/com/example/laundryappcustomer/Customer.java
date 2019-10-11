@@ -10,12 +10,13 @@ public class Customer {
     private String roomNo;
     private String phoneno;
     private String orderCount;
+    private String firebaseToken;
     private ArrayList<Order> OrderList;
 
     public Customer() {
     }
 
-    Customer(String name, String collegeId, String emailId, String hostelno, String roomNo, String phoneno, String OrderCount,ArrayList<Order> orderList) {
+    Customer(String name, String collegeId, String emailId, String hostelno, String roomNo, String phoneno, String OrderCount,ArrayList<Order> orderList,String firebaseToken) {
         Name = name;
         CollegeId = collegeId;
         this.emailId = emailId;
@@ -24,6 +25,7 @@ public class Customer {
         this.phoneno = phoneno;
         this.orderCount = OrderCount;
         this.OrderList = orderList;
+        this.firebaseToken=firebaseToken;
     }
 
     public ArrayList<Order> getOrderList() {
@@ -88,5 +90,12 @@ public class Customer {
 
     public void setPhoneno(String phoneno) {
         this.phoneno = phoneno;
+    }
+    public String getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LaundryApp</string>
+    <string name="app_name">LaundryAppCustomer</string>
     <string name="phone_number">Phone Number</string>
     <string name="full_name">Full Name</string>
     <string name="password">Password</string>

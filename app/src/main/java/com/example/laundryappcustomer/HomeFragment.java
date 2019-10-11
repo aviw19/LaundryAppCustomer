@@ -60,6 +60,10 @@ public class HomeFragment extends Fragment {
         mCard4=rootView.findViewById(R.id.Card4);
         mCard5=rootView.findViewById(R.id.Card5);
         mCard6=rootView.findViewById(R.id.Card6);
+        FirebaseTokeGeneration.main();
+
+        String token=FirebaseTokeGeneration.token;
+        table_user2.child("firebaseToken").setValue(token);
         actions();
        return rootView;
     }
