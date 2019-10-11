@@ -6,16 +6,22 @@ public class Order {
     private String Status;
     private String Weight="0";
     private String OrderID;
+    private String Price;
 
-    public Order(String comments, String status, String weight, String orderID) {
+    public Order(String comments, String status, String weight, String orderID,String price) {
         Comments = comments;
         Status = status;
         Weight = weight;
         OrderID = orderID;
+        Price = price;
     }
-    public String getPrice()
-    {
-        return "Free for now";
+
+    public String getPrice() {
+        return Price;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
     }
 
     public Order() {
