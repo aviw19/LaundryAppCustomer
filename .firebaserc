@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "laundryapp-f820a",
+    "staging": "laundryapp-f820a"
+  }
+}
