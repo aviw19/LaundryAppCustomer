@@ -3,6 +3,7 @@ package com.example.laundryappcustomer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,14 +22,16 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
         public TextView txtStatus;
         public TextView txtWeight;
         public TextView txtPrice;
+        public Button mPayButton;
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtOrderID = itemView.findViewById(R.id.order_id);
-            txtComment = itemView.findViewById(R.id.order_Comment);
+            txtOrderID = itemView.findViewById(R.id.order_OrderId);
+            txtComment = itemView.findViewById(R.id.order_Comments);
             txtWeight = itemView.findViewById(R.id.order_weight);
             txtStatus = itemView.findViewById(R.id.order_status);
-            txtPrice = itemView.findViewById(R.id.order_total);
+            txtPrice = itemView.findViewById(R.id.order_Price);
+            mPayButton = itemView.findViewById(R.id.pay_button);
         }
     }
 
@@ -53,6 +56,12 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
         holder.txtWeight.setText(currentItem.getWeight());
         holder.txtStatus.setText(currentItem.getStatus());
         holder.txtPrice.setText(currentItem.getPrice());
+        holder.mPayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override

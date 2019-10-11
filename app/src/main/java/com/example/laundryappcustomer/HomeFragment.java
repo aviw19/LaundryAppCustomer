@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,15 +38,10 @@ import static android.content.ContentValues.TAG;
 import static java.lang.Integer.parseInt;
 
 public class HomeFragment extends Fragment {
-    private CardView mRequestOrder;
-    private CardView mCard2;
-    private CardView mCard3;
-    private CardView mCard4;
-    private CardView mCard5;
-    private CardView mCard6;
+    private ImageView mRequestOrder;
     private TextView mTextComment;
     private String OrderID;
-    ArrayList<Order> OrderList = new ArrayList<>();
+    private ArrayList<Order> OrderList = new ArrayList<>();
     private String mComment;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference table_user = firebaseDatabase.getReference("Requests");
@@ -55,11 +51,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View rootView =inflater.inflate(R.layout.fragment_home, container, false);
        mRequestOrder=rootView.findViewById(R.id.request_Order);
-        mCard2=rootView.findViewById(R.id.Card2);
-        mCard3=rootView.findViewById(R.id.Card3);
-        mCard4=rootView.findViewById(R.id.Card4);
-        mCard5=rootView.findViewById(R.id.Card5);
-        mCard6=rootView.findViewById(R.id.Card6);
         FirebaseTokeGeneration.main();
 
         String token=FirebaseTokeGeneration.token;
@@ -112,7 +103,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateOrderList() {
-        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID);
+        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID,"NOT YET");
         OrderList = Common.currentUser.getOrderList();
         if (OrderList != null) {
             OrderList.add(n);
