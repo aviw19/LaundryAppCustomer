@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
     private String mComment;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference table_user = firebaseDatabase.getReference("Requests");
+    private DatabaseReference table_user2 = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
     @Nullable
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,34 +60,9 @@ public class HomeFragment extends Fragment {
         mCard4=rootView.findViewById(R.id.Card4);
         mCard5=rootView.findViewById(R.id.Card5);
         mCard6=rootView.findViewById(R.id.Card6);
-        //getCurrentOrderList();
         actions();
        return rootView;
     }
-
-    private void getCurrentOrderList() {
-        DatabaseReference db = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if(ds.child("Order").exists()){
-                    Order ol = ds.getValue(Order.class);
-                    OrderList.add(ol);}
-                    else
-                    {
-                        Toast.makeText(getActivity(),"ABHI ORDER HAIHI NAHI",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NotNull DatabaseError databaseError) {
-            }
-        };
-        db.addValueEventListener(eventListener);
-        Common.OrderList=OrderList;
-    }
-
 
     private void actions() {
         //first card View
@@ -100,16 +76,12 @@ public class HomeFragment extends Fragment {
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent toPayment = new Intent(getActivity(),Payment.class);
-
-                        startActivity(toPayment);
-
+                        //Intent toPayment = new Intent(getActivity(),Payment.class);
+                        //startActivity(toPayment);
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
                         makingRequest();
-                        updatingOrderNo();
-                        updateCurrentUser();
-                        updateOrderList();
+                        addingOrder();
                     }
                 });
                 alert.setView(alertLayout);
@@ -118,24 +90,15 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateOrderList() {
-        //update Orders of User and also make a Order LIST IN USER. WITH CLASS USER
-        Order n=new Order(mComment,"REQUESTED","0KG",OrderID);
-        Common.OrderList.add(n);
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference db=firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
-        for(Order oL: Common.OrderList) {
-                    db.child("Orders").child(OrderID).setValue(oL);
-        }
+    private void makingRequest() {
+        Requests mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID);
+        table_user.child(OrderID).setValue(mReq);
     }
 
-    private void updateCurrentUser() {
-       DatabaseReference db=firebaseDatabase.getReference("Customer");
-        try {
-            db.child(Common.currentUser.getPhoneno()).setValue(Common.currentUser);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void addingOrder() {
+        updatingOrderNo();
+        updateOrderList();
+        changeInUser();
     }
 
     private void updatingOrderNo() {
@@ -144,20 +107,23 @@ public class HomeFragment extends Fragment {
         Common.currentUser.setOrderCount(String.valueOf(count));
     }
 
-    private void makingRequest() {
-        table_user.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Requests mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID);
-                table_user.child(OrderID).setValue(mReq);
-                Toast.makeText(getActivity(),"Request For Collection is Done",Toast.LENGTH_SHORT).show();
-            }
+    private void updateOrderList() {
+        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID);
+        OrderList = Common.currentUser.getOrderList();
+        if (OrderList != null) {
+            OrderList.add(n);
+            Common.currentUser.setOrderList(OrderList);
+        }
+        else
+        {
+            OrderList = new ArrayList<Order>();
+            OrderList.add(n);
+            Common.currentUser.setOrderList(OrderList);
+        }
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+    private void changeInUser() {
+        table_user2.setValue(Common.currentUser);
     }
 }
 

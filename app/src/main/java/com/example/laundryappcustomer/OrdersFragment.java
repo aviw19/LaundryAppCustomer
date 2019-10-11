@@ -32,7 +32,7 @@ public class OrdersFragment extends Fragment {
         recyclerMenu = rootView.findViewById(R.id.recycler_orders);
         recyclerMenu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
-        mOrderList=Common.OrderList;
+        mOrderList=Common.currentUser.getOrderList();
         mAdapter = new OrdersAdapter(mOrderList);
         recyclerMenu.setLayoutManager(layoutManager);
         recyclerMenu.setAdapter(mAdapter);
