@@ -42,30 +42,31 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
 
     @NonNull
     @Override
-    public OrdersAdapter.OrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_item,parent,false);
+    public OrdersAdapter.OrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_item, parent, false);
         OrdersAdapter.OrdersViewHolder mvh = new OrdersAdapter.OrdersViewHolder(v);
         return mvh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrdersAdapter.OrdersViewHolder holder, int position){
-        Order currentItem = mOrderList.get(position);
-        holder.txtOrderID.setText(currentItem.getOrderID());
-        holder.txtComment.setText(currentItem.getComments());
-        holder.txtWeight.setText(currentItem.getWeight());
-        holder.txtStatus.setText(currentItem.getStatus());
-        holder.txtPrice.setText(currentItem.getPrice());
-        holder.mPayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+    public void onBindViewHolder(@NonNull OrdersAdapter.OrdersViewHolder holder, int position) {
+            Order currentItem = mOrderList.get(position);
+            holder.txtOrderID.setText(currentItem.getOrderID());
+            holder.txtComment.setText(currentItem.getComments());
+            holder.txtWeight.setText(currentItem.getWeight());
+            holder.txtStatus.setText(currentItem.getStatus());
+            holder.txtPrice.setText(currentItem.getPrice());
+            holder.mPayButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
             }
-        });
-    }
+
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mOrderList.size();
     }
 }
+

@@ -3,23 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="profile"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
-
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/qrimage"
+        android:src="@drawable/ic_laundry_pickup"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
     <Button
         android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
         android:text="LOGOUT" />
 
 </RelativeLayout>
