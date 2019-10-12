@@ -77,8 +77,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).
                 setSmallIcon(R.mipmap.ic_launcher) //Notification icon
                 .setContentTitle(notificationTitle)
-                .setContentText(notificationBody).addAction(R.mipmap.ic_launcher, "Accept", snoozePendingIntent).setPriority(NotificationCompat.PRIORITY_HIGH).
-                        setSound(defaultSoundUri).addAction(R.mipmap.ic_launcher,"Decline",snoozePendingIntent1);
+                .setContentText(notificationBody).addAction(R.mipmap.ic_launcher, "Pay Now", snoozePendingIntent).setPriority(NotificationCompat.PRIORITY_HIGH).
+                        setSound(defaultSoundUri).addAction(R.mipmap.ic_launcher,"Pay Later",snoozePendingIntent1);
 
 
         //notificationId is a unique int for each notification that you must define
