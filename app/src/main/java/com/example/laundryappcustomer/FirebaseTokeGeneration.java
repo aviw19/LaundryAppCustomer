@@ -10,7 +10,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 public class FirebaseTokeGeneration {
-    public static String  token;
+    public static String token;
 
     public static void main()
     {
@@ -34,5 +34,9 @@ public class FirebaseTokeGeneration {
                         //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    public static void deleteToken()
+    {
+
     }
 }

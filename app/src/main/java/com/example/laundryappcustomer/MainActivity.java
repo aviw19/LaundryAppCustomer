@@ -43,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
     private String verificationCode;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mPhoneNo = findViewById(R.id.phonenumber);
         mNextButton = findViewById(R.id.nextButton);
         settingCallBack();
