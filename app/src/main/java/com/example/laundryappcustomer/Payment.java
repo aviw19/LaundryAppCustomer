@@ -27,9 +27,9 @@ import java.util.HashMap;
 public class Payment extends AppCompatActivity implements PaytmPaymentTransactionCallback {
 
 
-    String  mid="";
-    String orderId="2";
-    String custid="2";
+    String  mid="jvEiNC03754986614481";
+    String orderId="3";
+    String custid="32";
 
 
     String pay="20";
@@ -77,9 +77,9 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
 
             JSONObject jsonObject = jsonParser.makeHttpRequest(url,"POST",param);
             // yaha per checksum ke saht order id or status receive hoga..
-            Log.e("CheckSum result >>",jsonObject.toString());
+           Log.e("CheckSum result >>",jsonObject.toString());
             if(jsonObject != null){
-                Log.e("CheckSum result >>",jsonObject.toString());
+               // Log.e("CheckSum result >>",jsonObject.toString());
                 try {
 
                     CHECKSUMHASH=jsonObject.has("CHECKSUMHASH")?jsonObject.getString("CHECKSUMHASH"):"";
@@ -136,8 +136,7 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
     public void onTransactionResponse(Bundle bundle) {
 
         Log.e("checksum ", " respon true " + bundle.toString());
-        Intent intent= new Intent(Payment.this,HomeFragment.class);
-        startActivity(intent);
+
 
     }
 

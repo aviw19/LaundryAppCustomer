@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 /**
  * Created by kamal_bunkar on 15-01-2019.
  */
@@ -55,6 +56,7 @@ public class jsonparse {
             jObj = new JSONObject(retSrc);
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
