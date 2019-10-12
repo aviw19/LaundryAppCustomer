@@ -22,12 +22,12 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         String order=requestid.substring(10);
         int notificationid=intent.getIntExtra("notificationId",0);
 
-        if(action.equals("Accept"))
+        if(action.equals("Pay Now"))
         {
             NotificationManagerCompat nm =  NotificationManagerCompat.from(context);
             nm.cancel(notificationid);
         }
-        if(action.equals("Decline"))
+        if(action.equals("Pay Later"))
         {
 
             NotificationManagerCompat nm =  NotificationManagerCompat.from(context);
