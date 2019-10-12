@@ -20,23 +20,18 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         String requestid=intent.getStringExtra("RequestId");
         String number=requestid.substring(0,10);
         String order=requestid.substring(10);
+        int notificationid=intent.getIntExtra("notificationId",0);
 
         if(action.equals("Accept"))
         {
-
-            databaseReference.child("Requests").child(requestid).child("status").setValue("Accepted");
-
-            databaseReference.child("Customer").child(number).child("orderList").child(order).child("status").setValue("Accepted");
             NotificationManagerCompat nm =  NotificationManagerCompat.from(context);
-            nm.cancel(1);
+            nm.cancel(notificationid);
         }
         if(action.equals("Decline"))
         {
-            databaseReference.child("Requests").child(requestid).child("status").setValue("Decline");
 
-            databaseReference.child("Customer").child(number).child("orderList").child(order).child("status").setValue("Decline");
             NotificationManagerCompat nm =  NotificationManagerCompat.from(context);
-            nm.cancel(1);
+            nm.cancel(notificationid);
         }
 
 

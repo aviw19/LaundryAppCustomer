@@ -12,11 +12,13 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.laundryappcustomer.Common;
 import com.example.laundryappcustomer.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Random;
 
 public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
@@ -25,6 +27,9 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     private static final String CHANNEL_ID ="1" ;
     private String ACTION_SNOOZE="1";
     String notificationTitle = null, notificationBody = null;
+    final int min = 0;
+    final int max = 9;
+    final int random = new Random().nextInt((max - min) + 1) + min;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -42,7 +47,6 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-
         sendNotification(notificationTitle, notificationBody);
 
     }
@@ -55,14 +59,17 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         Intent Accept = new Intent(this, MyBroadcastReceiver.class);
 
-        Accept.setAction("Accept");
-        Accept.putExtra("RequestId", notificationBody);
+        Accept.setAction("Pay Now");
+        Accept.putExtra("RequestId", notificationBody.substring(0,10));
+        Accept.putExtra("notificationId",random);
+
 
         PendingIntent snoozePendingIntent =
                 PendingIntent.getBroadcast(this, 0, Accept, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent Decline=new Intent(this,MyBroadcastReceiver.class);
-        Decline.setAction("Decline");
-        Decline.putExtra("RequestId",notificationBody);
+        Decline.setAction("Pay Later");
+        Decline.putExtra("RequestId",notificationBody.substring(0,10));
+        Decline.putExtra("notificationId",random);
         PendingIntent snoozePendingIntent1=PendingIntent.getBroadcast(this,0,Decline,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
@@ -75,7 +82,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
 
         //notificationId is a unique int for each notification that you must define
-        int notificationId = 1;
+        int notificationId=random;
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
     private void createNotificationChannel () {
