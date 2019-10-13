@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:padding="16dp">
+    <EditText
+        android:id="@+id/edit_emailid"
+        android:layout_below="@+id/edit_update"
+        android:layout_width="match_parent"
+        android:hint="NEW EMAIL-ID"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/edit_roomno"
+        android:layout_below="@+id/edit_emailid"
+        android:layout_width="match_parent"
+        android:hint="NEW ROOM-NO"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:layout_below="@+id/edit_roomno"
+        android:id="@+id/edit_hostel"
+        android:hint="NEW HOSTEL"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:layout_below="@+id/edit_hostel"
+        android:id="@+id/edit_id"
+        android:hint="NEW ID"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/edit_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_blue_dark"
+        android:text="UPDATE"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        />
+</RelativeLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="190dp"
     android:layout_margin="5dp"
     android:elevation="10dp"
     app:cardCornerRadius="5dp">
@@ -104,11 +104,35 @@
             android:textColor="@android:color/black"
             android:text="WEIGHT"
             />
+        <TextView
+            android:id="@+id/order_service_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/order_weight"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:text="Service : "
+            />
+        <TextView
+            android:id="@+id/order_service"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/order_weight"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/order_service_heading"
+            android:layout_toEndOf="@+id/order_service_heading"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:text="SERVICE"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_below="@+id/order_weight"
+            android:layout_below="@+id/order_service"
             android:layout_alignParentBottom="true"
             android:background="@android:color/white">
             <TextView

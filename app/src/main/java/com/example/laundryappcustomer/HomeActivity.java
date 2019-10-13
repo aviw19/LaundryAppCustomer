@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.laundryappcustomer.HomeFragment;
 import com.example.laundryappcustomer.NotificationFragment;
@@ -24,7 +25,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import static android.content.ContentValues.TAG;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements EditBottomSheet.BottomSheetListener {
+    Fragment selectedFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
+                    selectedFragment = null;
 
                     switch (item.getItemId()) {
                         case R.id.nav_home:
@@ -70,4 +72,22 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    @Override
+    public void onButtonClicked(String newroomno, String newemailid, String newhostel,String newID) {
+        ((ProfileFragment)selectedFragment).mtextroomno.setText(newroomno);
+        ((ProfileFragment)selectedFragment).mtextemailid.setText(newemailid);
+        ((ProfileFragment)selectedFragment).mtexthostel.setText(newhostel);
+        ((ProfileFragment)selectedFragment).mtextID.setText(newID);
+        updateDetails();
+    }
+
+    private void updateDetails() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference db = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
+        db.child("emailId").setValue(((ProfileFragment)selectedFragment).mtextemailid.getText().toString());
+        db.child("hostelNo").setValue(((ProfileFragment)selectedFragment).mtexthostel.getText().toString());
+        db.child("roomNo").setValue(((ProfileFragment)selectedFragment).mtextroomno.getText().toString());
+        db.child("collegeId").setValue(((ProfileFragment)selectedFragment).mtextID.getText().toString());
+    }
 }

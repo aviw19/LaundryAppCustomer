@@ -14,11 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.zxing.WriterException;
 
 import java.io.IOException;
+import java.text.BreakIterator;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -28,13 +33,14 @@ public class ProfileFragment extends Fragment {
     private Button mLogoutButton;
     private ImageView qrImage;
     private Bitmap bitmap;
-    private TextView mtextName;
-    private TextView mtextID;
-    private TextView mtextphone;
-    private TextView mtextemailid;
-    private TextView mtextroomno;
-    private TextView mtexthostel;
-    private View rootView;
+    public TextView mtextName;
+    public TextView mtextID;
+    public TextView mtextphone;
+    public TextView mtextemailid;
+    public TextView mtextroomno;
+    public TextView mtexthostel;
+    public TextView mEditButton;
+    public View rootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +57,13 @@ public class ProfileFragment extends Fragment {
         } catch (WriterException e) {
             Log.v("Hello", e.toString());
         }
+        mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditBottomSheet bottomsheet = new EditBottomSheet();
+                bottomsheet.show(getFragmentManager(),"exampleBottomSheet");
+            }
+        });
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +78,6 @@ public class ProfileFragment extends Fragment {
                         }
                         return null;
                     }
-
                     @Override
                     protected void onPostExecute(Void result) {
                         Intent intent=new Intent(getActivity(),MainActivity.class);
@@ -91,6 +103,7 @@ public class ProfileFragment extends Fragment {
         mtextemailid = rootView.findViewById(R.id.profile_emailid);
         mtextroomno = rootView.findViewById(R.id.profile_roomno);
         mtexthostel = rootView.findViewById(R.id.profile_hostelno);
+        mEditButton =rootView.findViewById(R.id.profile_Edit);
         settexts();
     }
 
@@ -102,4 +115,5 @@ public class ProfileFragment extends Fragment {
         mtexthostel.setText(Common.currentUser.getHostelNo());
         mtextphone.setText(Common.currentUser.getPhoneno());
     }
+
 }

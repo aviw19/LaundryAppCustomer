@@ -6,13 +6,23 @@ public class Requests {
     private String Status;
     private String Weight="0";
     private String OrderID;
+    private String Service;
 
-    public Requests(Customer user, String comments, String status, String weight,String OrderId) {
+    public Requests(Customer user, String comments, String status, String weight,String OrderId,String service) {
         User = user;
         this.Comments = comments;
         this.Status = status;
         Weight = weight;
         this.OrderID = OrderId;
+        Service = service;
+    }
+
+    public String getService() {
+        return Service;
+    }
+
+    public void setService(String service) {
+        Service = service;
     }
 
     public String getOrderID() {

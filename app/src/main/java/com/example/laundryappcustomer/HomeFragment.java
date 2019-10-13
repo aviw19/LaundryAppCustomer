@@ -39,10 +39,12 @@ import static java.lang.Integer.parseInt;
 
 public class HomeFragment extends Fragment {
     private ImageView mRequestOrder;
+    private ImageView mRequestOrderandIron;
     private TextView mTextComment;
     private String OrderID;
     private ArrayList<Order> OrderList = new ArrayList<>();
     private String mComment;
+    private Requests mReq;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference table_user = firebaseDatabase.getReference("Requests");
     private DatabaseReference table_user2 = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View rootView =inflater.inflate(R.layout.fragment_home, container, false);
        mRequestOrder=rootView.findViewById(R.id.request_Order);
+       mRequestOrderandIron = rootView.findViewById(R.id.request_Orderandiron);
         FirebaseTokeGeneration.main();
 
         String token=FirebaseTokeGeneration.token;
@@ -73,7 +76,29 @@ public class HomeFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
-                        makingRequest();
+                        makingRequest1();
+                        addingOrder();
+                    }
+                });
+                alert.setView(alertLayout);
+                alert.show();
+            }
+        });
+        mRequestOrderandIron.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getLayoutInflater();
+                final View alertLayout = inflater.inflate(R.layout.request_comments, null);
+                mTextComment=alertLayout.findViewById(R.id.request_Comment);
+                alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Intent toPayment = new Intent(getActivity(),Payment.class);
+                        //startActivity(toPayment);
+                        OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
+                        mComment=mTextComment.getText().toString();
+                        makingRequest2();
                         addingOrder();
                     }
                 });
@@ -85,8 +110,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void makingRequest() {
-        Requests mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID);
+    private void makingRequest1() {
+        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash Only");
+        table_user.child(OrderID).setValue(mReq);
+    }
+    private void makingRequest2() {
+        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash and Iron");
         table_user.child(OrderID).setValue(mReq);
     }
 
@@ -103,7 +132,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateOrderList() {
-        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID,"NOT YET");
+        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID,"NOT YET",mReq.getService());
         OrderList = Common.currentUser.getOrderList();
         if (OrderList != null) {
             OrderList.add(n);
@@ -111,7 +140,7 @@ public class HomeFragment extends Fragment {
         }
         else
         {
-            OrderList = new ArrayList<Order>();
+            OrderList = new ArrayList<>();
             OrderList.add(n);
             Common.currentUser.setOrderList(OrderList);
         }

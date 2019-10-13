@@ -7,13 +7,23 @@ public class Order {
     private String Weight="0";
     private String OrderID;
     private String Price;
+    private String Service;
 
-    public Order(String comments, String status, String weight, String orderID,String price) {
+    public Order(String comments, String status, String weight, String orderID,String price,String service) {
         Comments = comments;
         Status = status;
         Weight = weight;
         OrderID = orderID;
         Price = price;
+        Service = service;
+    }
+
+    public String getService() {
+        return Service;
+    }
+
+    public void setService(String service) {
+        Service = service;
     }
 
     public String getPrice() {
