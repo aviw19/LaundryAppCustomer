@@ -34,6 +34,7 @@ public class ProfileFragment extends Fragment {
     private TextView mtextemailid;
     private TextView mtextroomno;
     private TextView mtexthostel;
+    private Button mEditButton;
     private View rootView;
     @Nullable
     @Override
@@ -51,6 +52,12 @@ public class ProfileFragment extends Fragment {
         } catch (WriterException e) {
             Log.v("Hello", e.toString());
         }
+        mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +98,7 @@ public class ProfileFragment extends Fragment {
         mtextemailid = rootView.findViewById(R.id.profile_emailid);
         mtextroomno = rootView.findViewById(R.id.profile_roomno);
         mtexthostel = rootView.findViewById(R.id.profile_hostelno);
+        mEditButton =rootView.findViewById(R.id.profile_Edit);
         settexts();
     }
 

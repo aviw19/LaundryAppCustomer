@@ -23,6 +23,7 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
         public TextView txtWeight;
         public TextView txtPrice;
         public Button mPayButton;
+        public TextView txtService;
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -32,6 +33,7 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
             txtStatus = itemView.findViewById(R.id.order_status);
             txtPrice = itemView.findViewById(R.id.order_Price);
             mPayButton = itemView.findViewById(R.id.pay_button);
+            txtService = itemView.findViewById(R.id.order_service);
         }
     }
 
@@ -56,6 +58,7 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
             holder.txtWeight.setText(currentItem.getWeight());
             holder.txtStatus.setText(currentItem.getStatus());
             holder.txtPrice.setText(currentItem.getPrice());
+            holder.txtService.setText(currentItem.getService());
             holder.mPayButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

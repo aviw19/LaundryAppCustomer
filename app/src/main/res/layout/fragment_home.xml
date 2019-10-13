@@ -5,22 +5,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/background_light">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:id="@+id/request_heading"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_blue_dark"
+        android:text="REQUEST ORDER"
+        android:textSize="25sp"
+        />
     <ImageView
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:id="@+id/request_Order"
-    android:layout_marginTop="100dp"
-    android:layout_centerHorizontal="true"
+    android:layout_marginTop="50dp"
+    android:layout_marginStart="70dp"
+    android:layout_marginLeft="70dp"
+        android:layout_below="@+id/request_heading"
     android:background="@color/white"
     android:src="@drawable/ic_laundry_pickup"
     />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/request_Orderandiron"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginStart="70dp"
+        android:layout_toRightOf="@+id/request_Order"
+        android:layout_below="@+id/request_heading"
+        android:background="@color/white"
+        android:src="@drawable/ic_laundry_pickup_iron"
+        />
     <TextView
         android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_below="@+id/request_Order"
-        android:layout_centerHorizontal="true"
-        android:text="REQUEST PICKUP"
-        android:textSize="12sp"
+        android:layout_alignStart="@+id/request_Order"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignLeft="@+id/request_Order"
+        android:text="WASH ONLY"
+        android:textSize="15sp"
+        />
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginLeft="-10dp"
+        android:layout_below="@+id/request_Order"
+        android:layout_alignStart="@+id/request_Orderandiron"
+        android:layout_alignLeft="@+id/request_Orderandiron"
+        android:text="WASH AND IRON"
+        android:textSize="15sp"
         />
 
     <androidx.appcompat.widget.AppCompatImageView
