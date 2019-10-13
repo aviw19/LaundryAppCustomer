@@ -1,32 +1,24 @@
 package com.example.laundryappcustomer;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.zxing.WriterException;
+
+import java.io.IOException;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -36,17 +28,20 @@ public class ProfileFragment extends Fragment {
     private Button mLogoutButton;
     private ImageView qrImage;
     private Bitmap bitmap;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference db=firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno()).child("firebaseToken");
+    private TextView mtextName;
+    private TextView mtextID;
+    private TextView mtextphone;
+    private TextView mtextemailid;
+    private TextView mtextroomno;
+    private TextView mtexthostel;
+    private View rootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView= inflater.inflate(R.layout.fragment_profile, container, false);
+        rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         mAuth=FirebaseAuth.getInstance();
-        mLogoutButton=rootView.findViewById(R.id.logout_button);
-
-        qrImage = rootView.findViewById(R.id.qrimage);
+        assignment();
         QRGEncoder qrgEncoder = new QRGEncoder(Common.currentUser.getPhoneno(), null, QRGContents.Type.TEXT,100);
         try {
             // Getting QR-Code as Bitmap
@@ -59,17 +54,52 @@ public class ProfileFragment extends Fragment {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.setValue("null");
                 mAuth.signOut();
-                Intent intent=new Intent(getActivity(),MainActivity.class);
-                Common.currentUser=null;
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                getActivity().finish();
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            FirebaseInstanceId.getInstance().deleteInstanceId();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        Intent intent=new Intent(getActivity(),MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Common.currentUser=null;
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                }.execute();
 
             }
         });
         return rootView;
 
+    }
+
+    private void assignment() {
+        mLogoutButton=rootView.findViewById(R.id.logout_button);
+        qrImage = rootView.findViewById(R.id.qrimage);
+        mtextName = rootView.findViewById(R.id.profile_name);
+        mtextID = rootView.findViewById(R.id.profile_ID);
+        mtextphone = rootView.findViewById(R.id.profile_phoneno);
+        mtextemailid = rootView.findViewById(R.id.profile_emailid);
+        mtextroomno = rootView.findViewById(R.id.profile_roomno);
+        mtexthostel = rootView.findViewById(R.id.profile_hostelno);
+        settexts();
+    }
+
+    private void settexts() {
+        mtextName.setText(Common.currentUser.getName());
+        mtextID.setText(Common.currentUser.getCollegeId());
+        mtextemailid.setText(Common.currentUser.getEmailId());
+        mtextroomno.setText(Common.currentUser.getRoomNo());
+        mtexthostel.setText(Common.currentUser.getHostelNo());
+        mtextphone.setText(Common.currentUser.getPhoneno());
     }
 }
