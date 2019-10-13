@@ -104,8 +104,8 @@ public class HomeFragment extends Fragment {
                 });
                 alert.setView(alertLayout);
                 alert.show();
-                Intent toPayment = new Intent(getActivity(),Payment.class);
-                startActivity(toPayment);
+
+
             }
         });
     }

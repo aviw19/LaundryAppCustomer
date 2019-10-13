@@ -58,32 +58,57 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         createNotificationChannel();
 
         Intent Accept = new Intent(this, MyBroadcastReceiver.class);
-
-        Accept.setAction("Pay Now");
-        Accept.putExtra("RequestId", notificationBody.substring(0,10));
-        Accept.putExtra("notificationId",random);
-
-
-        PendingIntent snoozePendingIntent =
-                PendingIntent.getBroadcast(this, 0, Accept, PendingIntent.FLAG_UPDATE_CURRENT);
-        Intent Decline=new Intent(this,MyBroadcastReceiver.class);
-        Decline.setAction("Pay Later");
-        Decline.putExtra("RequestId",notificationBody.substring(0,10));
-        Decline.putExtra("notificationId",random);
-        PendingIntent snoozePendingIntent1=PendingIntent.getBroadcast(this,0,Decline,PendingIntent.FLAG_UPDATE_CURRENT);
-
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).
-                setSmallIcon(R.mipmap.ic_launcher) //Notification icon
-                .setContentTitle(notificationTitle)
-                .setContentText(notificationBody).addAction(R.mipmap.ic_launcher, "Pay Now", snoozePendingIntent).setPriority(NotificationCompat.PRIORITY_HIGH).
-                        setSound(defaultSoundUri).addAction(R.mipmap.ic_launcher,"Pay Later",snoozePendingIntent1);
+        int notificationId;
+
+        if(notificationBody.contains("Accepted")) {
+            int x=notificationBody.indexOf("A");
+            String orderid=notificationBody.substring(0,x);
+            String orderno=notificationBody.substring(10,x);
+
+            Accept.setAction("Pay Now");
+            Accept.putExtra("OrderId", orderid);
+            Accept.putExtra("notificationId", random);
+            Accept.putExtra("orderno",orderno);
+
+
+            PendingIntent snoozePendingIntent =
+                    PendingIntent.getBroadcast(this, 0, Accept, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent Decline = new Intent(this, MyBroadcastReceiver.class);
+            Decline.setAction("Pay Later");
+            Decline.putExtra("RequestId", notificationBody.substring(0, 10));
+            Decline.putExtra("notificationId", random);
+            PendingIntent snoozePendingIntent1 = PendingIntent.getBroadcast(this, 0, Decline, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).
+                    setSmallIcon(R.mipmap.ic_launcher) //Notification icon
+                    .setContentTitle(notificationTitle)
+                    .setContentText(notificationBody).addAction(R.mipmap.ic_launcher, "Pay Now", snoozePendingIntent).setPriority(NotificationCompat.PRIORITY_HIGH).
+                            setSound(defaultSoundUri).addAction(R.mipmap.ic_launcher, "Pay Later", snoozePendingIntent1);
+            notificationId=random;
+            notificationManager.notify(notificationId, notificationBuilder.build());
+        }
+        else
+        {
+            Accept.setAction("Ok");
+            PendingIntent snoozePendingIntent =
+                    PendingIntent.getBroadcast(this, 0, Accept, PendingIntent.FLAG_UPDATE_CURRENT);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).
+                    setSmallIcon(R.mipmap.ic_launcher) //Notification icon
+                    .setContentTitle(notificationTitle)
+                    .setContentText(notificationBody).addAction(R.mipmap.ic_launcher, "Ok", snoozePendingIntent).setPriority(NotificationCompat.PRIORITY_HIGH);
+            notificationId=random;
+            notificationManager.notify(notificationId, notificationBuilder.build());
+
+        }
 
 
         //notificationId is a unique int for each notification that you must define
-        int notificationId=random;
-        notificationManager.notify(notificationId, notificationBuilder.build());
+
+
     }
     private void createNotificationChannel () {
         //Create the NotificationChannel, but only on API 26+ because
