@@ -9,11 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
     private OnItemClickListener mListener;
@@ -46,14 +49,25 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             txtPrice = itemView.findViewById(R.id.order_Price);
             mPayButton = itemView.findViewById(R.id.pay_button);
             txtService = itemView.findViewById(R.id.order_service);
-            position = getAdapterPosition();
             mPayButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
+                        int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
                         {
-                            listener.onPayClick(position,mOrderList.get(position).getStatus());
+                            if(mOrderList.get(position).getStatus().equals("Paid"))
+                            {
+                                mPayButton.setEnabled(false);
+                                mPayButton.setText("PAID");
+                                //Toast.makeText(getContext(),"hello ",Toast.LENGTH_SHORT).show();
+                           }
+                            else
+                            {
+                                listener.onPayClick(position,mOrderList.get(position).getStatus());
+                              }
+
+
                         }
                     }
                 }
