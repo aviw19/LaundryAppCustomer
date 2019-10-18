@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,12 +28,18 @@ import java.util.HashMap;
 public class Payment extends AppCompatActivity implements PaytmPaymentTransactionCallback {
 
 
-    String  mid="";
-    String orderId="2";
-    String custid="2";
+    private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference=firebaseDatabase.getReference("Customer");
+    private DatabaseReference databaseReference2=firebaseDatabase.getReference("Requests");
+
+    String  mid="jvEiNC03754986614481";
+    String orderId="";
+    String custid="";
+    String orderno="";
 
 
-    String pay="20";
+    String pay="200";
+    String stat="";
 
 
     @Override
@@ -43,7 +50,13 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        Intent intent=getIntent();
 
+
+        orderId=intent.getStringExtra("orderid");
+        custid=intent.getStringExtra("orderid").substring(0,10);
+        stat=intent.getStringExtra("stat");
+        orderno=intent.getStringExtra("orderno");
 
 
         mid = "jvEiNC03754986614481"; /// your marchant key
@@ -77,9 +90,9 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
 
             JSONObject jsonObject = jsonParser.makeHttpRequest(url,"POST",param);
             // yaha per checksum ke saht order id or status receive hoga..
-            Log.e("CheckSum result >>",jsonObject.toString());
+           Log.e("CheckSum result >>",jsonObject.toString());
             if(jsonObject != null){
-                Log.e("CheckSum result >>",jsonObject.toString());
+               // Log.e("CheckSum result >>",jsonObject.toString());
                 try {
 
                     CHECKSUMHASH=jsonObject.has("CHECKSUMHASH")?jsonObject.getString("CHECKSUMHASH"):"";
@@ -109,7 +122,7 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
             paramMap.put("ORDER_ID", orderId);
             paramMap.put("CUST_ID", custid);
             paramMap.put("CHANNEL_ID", "WAP");
-            paramMap.put("TXN_AMOUNT","20");
+            paramMap.put("TXN_AMOUNT","200");
             paramMap.put("WEBSITE", "WEBSTAGING");
             paramMap.put("CALLBACK_URL" ,varifyurl);
             //paramMap.put( "EMAIL" , "abc@gmail.com");   // no need
@@ -136,40 +149,71 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
     public void onTransactionResponse(Bundle bundle) {
 
         Log.e("checksum ", " respon true " + bundle.toString());
-        Intent intent= new Intent(Payment.this,HomeFragment.class);
-        startActivity(intent);
+        //Toast.makeText(Payment.this, bundle.toString(), Toast.LENGTH_SHORT).show();
+        //System.exit(0);
+        if(bundle.toString().contains("SUCCESS"))
+        {
+            databaseReference.child(custid).child("orderList").child(orderno).child("status").setValue("Paid");
+        }
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+        //Intent intent= new Intent(Payment.this,HomeActivity.class);
+        //startActivity(intent);
+
 
     }
 
     @Override
     public void networkNotAvailable() {
         Log.e("S","ss");
+        //Toast.makeText(Payment.this,"NetWork Not available, please try again later", Toast.LENGTH_SHORT).show();
+        //Intent intent= new Intent(Payment.this,HomeFragment.class);
+        //startActivity(intent);
+
     }
 
     @Override
     public void clientAuthenticationFailed(String s) {
         Log.e("S",s);
+        //Toast.makeText(Payment.this,"Authentication failed, please try again later", Toast.LENGTH_SHORT).show();
+        //Intent intent= new Intent(Payment.this,HomeFragment.class);
+        //startActivity(intent);
 
     }
 
     @Override
     public void someUIErrorOccurred(String s) {
         Log.e("checksum ", " ui fail respon  "+ s );
+        //Toast.makeText(Payment.this,"Payment cannot pe proccessed right now, please try again later", Toast.LENGTH_SHORT).show();
+       // Intent intent= new Intent(Payment.this,HomeFragment.class);
+       // startActivity(intent);
     }
 
     @Override
     public void onErrorLoadingWebPage(int i, String s, String s1) {
         Log.e("checksum ", " error loading pagerespon true "+ s + "  s1 " + s1);
+        Toast.makeText(Payment.this,"Payment cannot pe proccessed right now, please try again later", Toast.LENGTH_SHORT).show();
+        //Intent intent= new Intent(Payment.this,HomeFragment.class);
+        //startActivity(intent);
     }
 
     @Override
     public void onBackPressedCancelTransaction() {
         Log.e("checksum ", " cancel call back respon  " );
+        //Toast.makeText(Payment.this,"You cancelled the transaction please try again later", Toast.LENGTH_SHORT).show();
+        //Intent intent= new Intent(Payment.this,HomeFragment.class);
+        //startActivity(intent);
+
     }
 
     @Override
     public void onTransactionCancel(String s, Bundle bundle) {
         Log.e("checksum ", "  transaction cancel " );
+       // Toast.makeText(Payment.this,"Transaction Cancelled, please try again later", Toast.LENGTH_SHORT).show();
+        //Intent intent= new Intent(Payment.this,HomeFragment.class);
+        //startActivity(intent);
     }
 
 

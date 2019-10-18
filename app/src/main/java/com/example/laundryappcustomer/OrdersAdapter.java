@@ -1,32 +1,47 @@
 package com.example.laundryappcustomer;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
+import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
+public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
+    private OnItemClickListener mListener;
+    int position;
     private ArrayList<Order> mOrderList;
+    public interface OnItemClickListener {
+        void onPayClick(int position,String status);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        mListener = listener;
+    }
 
     public class OrdersViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView txtOrderID;
-        public TextView txtComment;
-        public TextView txtStatus;
-        public TextView txtWeight;
-        public TextView txtPrice;
-        public Button mPayButton;
-        public TextView txtService;
+        private TextView txtOrderID;
+        private TextView txtComment;
+        private TextView txtStatus;
+        private TextView txtWeight;
+        private TextView txtPrice;
+        private Button mPayButton;
+        private TextView txtService;
         public TextView txtPaymentStatus;
 
-        public OrdersViewHolder(@NonNull View itemView) {
+        public OrdersViewHolder(@NonNull View itemView,final OnItemClickListener listener) {
             super(itemView);
             txtOrderID = itemView.findViewById(R.id.order_OrderId);
             txtComment = itemView.findViewById(R.id.order_Comments);
@@ -36,19 +51,42 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
             mPayButton = itemView.findViewById(R.id.pay_button);
             txtService = itemView.findViewById(R.id.order_service);
             txtPaymentStatus = itemView.findViewById(R.id.order_paymentstatus);
+            mPayButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                        {
+                            if(mOrderList.get(position).getStatus().equals("Paid"))
+                            {
+                                mPayButton.setEnabled(false);
+                                mPayButton.setText("PAID");
+                                //Toast.makeText(getContext(),"hello ",Toast.LENGTH_SHORT).show();
+                           }
+                            else
+                            {
+                                listener.onPayClick(position,mOrderList.get(position).getStatus());
+                              }
+
+
+                        }
+                    }
+                }
+            });
         }
     }
 
-    public OrdersAdapter(ArrayList<Order> OrderArrayList) {
-        mOrderList = OrderArrayList;
+    public OrdersAdapter(ArrayList<Order> categoryArrayList) {
+        mOrderList = categoryArrayList;
     }
 
 
     @NonNull
     @Override
-    public OrdersAdapter.OrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_item, parent, false);
-        OrdersAdapter.OrdersViewHolder mvh = new OrdersAdapter.OrdersViewHolder(v);
+    public OrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType){
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_item,parent,false);
+        OrdersViewHolder mvh = new OrdersViewHolder(v,mListener);
         return mvh;
     }
 
@@ -71,7 +109,7 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>
 
 
     @Override
-    public int getItemCount() {
+    public int getItemCount(){
         return mOrderList.size();
     }
 }

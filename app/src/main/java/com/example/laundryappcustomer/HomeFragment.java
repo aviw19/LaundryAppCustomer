@@ -74,8 +74,6 @@ public class HomeFragment extends Fragment {
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Intent toPayment = new Intent(getActivity(),Payment.class);
-                        //startActivity(toPayment);
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
                         makingRequest1();
@@ -106,6 +104,8 @@ public class HomeFragment extends Fragment {
                 });
                 alert.setView(alertLayout);
                 alert.show();
+
+
             }
         });
     }
