@@ -7,14 +7,24 @@ public class Requests {
     private String Weight="0";
     private String OrderID;
     private String Service;
+    private String PaymentStatus;
 
-    public Requests(Customer user, String comments, String status, String weight,String OrderId,String service) {
+    public Requests(Customer user, String comments, String status, String weight,String OrderId,String service,String paymentstatus) {
         User = user;
         this.Comments = comments;
         this.Status = status;
         Weight = weight;
         this.OrderID = OrderId;
         Service = service;
+        PaymentStatus=paymentstatus;
+    }
+
+    public String getPaymentStatus() {
+        return PaymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        PaymentStatus = paymentStatus;
     }
 
     public String getService() {

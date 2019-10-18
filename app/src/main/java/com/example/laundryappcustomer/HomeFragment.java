@@ -111,11 +111,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void makingRequest1() {
-        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash Only");
+        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash Only","NOT PAID");
         table_user.child(OrderID).setValue(mReq);
     }
     private void makingRequest2() {
-        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash and Iron");
+        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash and Iron","NOT PAID");
         table_user.child(OrderID).setValue(mReq);
     }
 
@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateOrderList() {
-        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID,"NOT YET",mReq.getService());
+        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID,"NOT YET",mReq.getService(),"NOT PAID");
         OrderList = Common.currentUser.getOrderList();
         if (OrderList != null) {
             OrderList.add(n);

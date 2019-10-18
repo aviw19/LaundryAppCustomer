@@ -8,14 +8,24 @@ public class Order {
     private String OrderID;
     private String Price;
     private String Service;
+    private String PaymentStatus;
 
-    public Order(String comments, String status, String weight, String orderID,String price,String service) {
+    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus) {
         Comments = comments;
         Status = status;
         Weight = weight;
         OrderID = orderID;
         Price = price;
         Service = service;
+        PaymentStatus=paymentStatus;
+    }
+
+    public String getPaymentStatus() {
+        return PaymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        PaymentStatus = paymentStatus;
     }
 
     public String getService() {
