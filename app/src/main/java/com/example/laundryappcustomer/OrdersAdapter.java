@@ -58,19 +58,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
                         {
-                            if(mOrderList.get(position).getStatus().equals("Paid"))
-                            {
-                                mPayButton.setEnabled(false);
-                                mPayButton.setText("PAID");
-                                //Toast.makeText(getContext(),"hello ",Toast.LENGTH_SHORT).show();
-                           }
-                            else
-                            {
-                                listener.onPayClick(position,mOrderList.get(position).getStatus());
-                              }
 
-
+                                listener.onPayClick(position,"d");
                         }
+
+
                     }
                 }
             });
@@ -106,7 +98,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
                 }
             });
             }
-
 
     @Override
     public int getItemCount(){

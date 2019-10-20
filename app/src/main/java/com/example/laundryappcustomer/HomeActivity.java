@@ -3,6 +3,9 @@ package com.example.laundryappcustomer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -90,4 +93,9 @@ public class HomeActivity extends AppCompatActivity implements EditBottomSheet.B
         db.child("roomNo").setValue(((ProfileFragment)selectedFragment).mtextroomno.getText().toString());
         db.child("collegeId").setValue(((ProfileFragment)selectedFragment).mtextID.getText().toString());
     }
+
+
+
+
 }
+

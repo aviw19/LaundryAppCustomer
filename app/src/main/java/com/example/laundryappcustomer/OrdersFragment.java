@@ -41,6 +41,8 @@ public class OrdersFragment extends Fragment {
             @Override
             public void onPayClick(int position,String status)
             {
+                Toast.makeText(getContext(),"s",Toast.LENGTH_SHORT).show();
+
 
                 Intent intent = new Intent(getActivity(),Payment.class);
                 intent.putExtra("orderid",Common.currentUser.getPhoneno().concat(Common.currentUser.getOrderCount()));
