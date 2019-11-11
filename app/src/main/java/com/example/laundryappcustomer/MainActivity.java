@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void registerUser() {
         Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
+        Common.phoneNo=phoneNumber;
         startActivity(intent);
         finish();
     }

@@ -1,26 +1,19 @@
 package com.example.laundryappcustomer;
 
-import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-
-import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
     private OnItemClickListener mListener;
-    int position;
     private ArrayList<Order> mOrderList;
     public interface OnItemClickListener {
         void onPayClick(int position,String status);
@@ -51,18 +44,21 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             mPayButton = itemView.findViewById(R.id.pay_button);
             txtService = itemView.findViewById(R.id.order_service);
             txtPaymentStatus = itemView.findViewById(R.id.order_paymentstatus);
-            mPayButton.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
                         {
-
                                 listener.onPayClick(position,"d");
                         }
 
 
+                    }
+                    else
+                    {
+                        Log.d("hello", "onClick: ");
                     }
                 }
             });
@@ -101,6 +97,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
 
     @Override
     public int getItemCount(){
+        if(mOrderList==null)
+        {
+            return 0;
+        }
         return mOrderList.size();
     }
 }

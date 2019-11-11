@@ -37,7 +37,7 @@ import com.google.firebase.iid.InstanceIdResult;
 
 
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
-    EditText mTextUsername;
+    TextView mTextUsername;
     EditText mTextEmailId;
     EditText mTextBitsId;
     EditText mTextFullName;
@@ -64,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
+
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mTextEmailId = findViewById(R.id.emailid);
         mTextFullName = findViewById(R.id.register_name);
@@ -73,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         mTextViewLogin = findViewById(R.id.register_login);
         mTextRoomNo = findViewById(R.id.room_no);
         spinner = findViewById(R.id.hostel);
+        mTextUsername.setText(Common.phoneNo);
         buttonsWork();
         spinnersWork();
     }
@@ -113,18 +115,11 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 table_user.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (mTextUsername.getText().toString().length() != 10) {
-                            mDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, "INVALID USERNAME", Toast.LENGTH_SHORT).show();
-                            mTextUsername.getText().clear();
-                        }
-                        else {
                             if (dataSnapshot.child(mTextUsername.getText().toString()).exists()) {
                                 mDialog.dismiss();
                                 Toast.makeText(RegisterActivity.this, "USER ALREADY REGISTERED", Toast.LENGTH_SHORT).show();
                                 mTextBitsId.getText().clear();
                                 mTextEmailId.getText().clear();
-                                mTextUsername.getText().clear();
                                 mTextFullName.getText().clear();
                                 mTextRoomNo.getText().clear();
                             }
@@ -141,14 +136,12 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 mTextRoomNo.getText().clear();
                                 mTextBitsId.getText().clear();
                                 mTextEmailId.getText().clear();
-                                mTextUsername.getText().clear();
                                 mTextFullName.getText().clear();
                                 finish();
                                 Intent toLogin = new Intent(RegisterActivity.this, HomeActivity.class);
                                 startActivity(toLogin);
 
                             }
-                        }
                     }
 
 
@@ -202,6 +195,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             Email = account.getEmail();
             mTextBitsId = alertLayout.findViewById(R.id.bitsid_Google);
             mTextUsername = alertLayout.findViewById(R.id.ContactNumber);
+            mTextUsername.setText(Common.phoneNo);
             mTextRoomNo = alertLayout.findViewById(R.id.Room_No_google);
             ArrayAdapter adapter = new ArrayAdapter<>(RegisterActivity.this, android.R.layout.simple_spinner_item, mHostelList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -219,17 +213,11 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                     table_user.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (mTextUsername.getText().toString().length() != 10) {
-
-                                Toast.makeText(RegisterActivity.this, "INVALID USERNAME", Toast.LENGTH_SHORT).show();
-                                mTextUsername.getText().clear();
-                            } else {
                                 if (dataSnapshot.child(mTextUsername.getText().toString()).exists()) {
 
                                     Toast.makeText(RegisterActivity.this, "USER ALREADY REGISTERED", Toast.LENGTH_SHORT).show();
                                     mTextBitsId.getText().clear();
                                     mTextEmailId.getText().clear();
-                                    mTextUsername.getText().clear();
                                     mTextFullName.getText().clear();
                                     mTextRoomNo.getText().clear();
 
@@ -244,7 +232,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                     Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                     mTextBitsId.getText().clear();
                                     mTextEmailId.getText().clear();
-                                    mTextUsername.getText().clear();
                                     mTextFullName.getText().clear();
                                     mTextRoomNo.getText().clear();
 
@@ -253,7 +240,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                     finish();
 
                                 }
-                            }
+
                         }
 
                         @Override

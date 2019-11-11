@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,8 @@ public class HomeFragment extends Fragment {
     private ArrayList<Order> OrderList = new ArrayList<>();
     private String mComment;
     private Requests mReq;
+    private RadioButton sixKgbutton;
+    private RadioButton EightKgButton;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference table_user = firebaseDatabase.getReference("Requests");
     private DatabaseReference table_user2 = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
@@ -70,14 +73,33 @@ public class HomeFragment extends Fragment {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getLayoutInflater();
                 final View alertLayout = inflater.inflate(R.layout.request_comments, null);
-                mTextComment=alertLayout.findViewById(R.id.request_Comment);
+                mTextComment=alertLayout.findViewById(R.id.comments);
+                sixKgbutton = alertLayout.findViewById(R.id.sixkgbutton);
+                EightKgButton = alertLayout.findViewById(R.id.eightkgbutton);
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        String weight="0KG";
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
-                        makingRequest1();
-                        addingOrder();
+                        if(sixKgbutton.isChecked() && EightKgButton.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(!sixKgbutton.isChecked() && !EightKgButton.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select a category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(sixKgbutton.isChecked())
+                        {
+                            weight="6KG";
+                        }
+                        else
+                        {
+                            weight="8KG";
+                        }
+                        makingRequest1(weight);
+                        addingOrder(weight);
                     }
                 });
                 alert.setView(alertLayout);
@@ -90,16 +112,35 @@ public class HomeFragment extends Fragment {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getLayoutInflater();
                 final View alertLayout = inflater.inflate(R.layout.request_comments, null);
-                mTextComment=alertLayout.findViewById(R.id.request_Comment);
+                mTextComment=alertLayout.findViewById(R.id.comments);
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Intent toPayment = new Intent(getActivity(),Payment.class);
                         //startActivity(toPayment);
+                        String weight="0KG";
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
-                        makingRequest2();
-                        addingOrder();
+                        sixKgbutton = alertLayout.findViewById(R.id.sixkgbutton);
+                        EightKgButton = alertLayout.findViewById(R.id.eightkgbutton);
+                        if(sixKgbutton.isChecked() && EightKgButton.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(!sixKgbutton.isChecked() && !EightKgButton.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select a category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(sixKgbutton.isChecked())
+                        {
+                            weight="6KG";
+                        }
+                        else
+                        {
+                            weight="8KG";
+                        }
+                        makingRequest2(weight);
+                        addingOrder(weight);
                     }
                 });
                 alert.setView(alertLayout);
@@ -110,18 +151,18 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void makingRequest1() {
-        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash Only","NOT PAID");
+    private void makingRequest1(String weight) {
+        mReq = new Requests(Common.currentUser,mComment,"REQUESTED",weight,OrderID,"Wash Only","NOT PAID");
         table_user.child(OrderID).setValue(mReq);
     }
-    private void makingRequest2() {
-        mReq = new Requests(Common.currentUser,mComment,"REQUESTED","0KG",OrderID,"Wash and Iron","NOT PAID");
+    private void makingRequest2(String weight) {
+        mReq = new Requests(Common.currentUser,mComment,"REQUESTED",weight,OrderID,"Wash and Iron","NOT PAID");
         table_user.child(OrderID).setValue(mReq);
     }
 
-    private void addingOrder() {
+    private void addingOrder(String weight) {
         updatingOrderNo();
-        updateOrderList();
+        updateOrderList(weight);
         changeInUser();
     }
 
@@ -131,8 +172,8 @@ public class HomeFragment extends Fragment {
         Common.currentUser.setOrderCount(String.valueOf(count));
     }
 
-    private void updateOrderList() {
-        Order n = new Order(mComment, "REQUESTED", "0KG", OrderID,"NOT YET",mReq.getService(),"NOT PAID");
+    private void updateOrderList(String weight) {
+        Order n = new Order(mComment, "REQUESTED", weight, OrderID,"NOT YET",mReq.getService(),"NOT PAID");
         OrderList = Common.currentUser.getOrderList();
         if (OrderList != null) {
             OrderList.add(n);
@@ -146,7 +187,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void changeInUser() {
+    private void changeInUser(){
         table_user2.setValue(Common.currentUser);
     }
 }

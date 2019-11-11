@@ -22,6 +22,10 @@ public class EditBottomSheet extends BottomSheetDialogFragment {
         final EditText mhostel = v.findViewById(R.id.edit_hostel);
         final EditText mroomno = v.findViewById(R.id.edit_roomno);
         final EditText mID = v.findViewById(R.id.edit_id);
+        mID.setText(Common.currentUser.getCollegeId());
+        mroomno.setText(Common.currentUser.getRoomNo());
+        mhostel.setText(Common.currentUser.getHostelNo());
+        memailid.setText(Common.currentUser.getEmailId());
         Button mUpdate = v.findViewById(R.id.edit_update);
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
