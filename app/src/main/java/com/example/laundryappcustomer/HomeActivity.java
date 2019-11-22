@@ -1,5 +1,6 @@
 package com.example.laundryappcustomer;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 
 import static android.content.ContentValues.TAG;
 
@@ -93,8 +95,6 @@ public class HomeActivity extends AppCompatActivity implements EditBottomSheet.B
         db.child("roomNo").setValue(((ProfileFragment)selectedFragment).mtextroomno.getText().toString());
         db.child("collegeId").setValue(((ProfileFragment)selectedFragment).mtextID.getText().toString());
     }
-
-
 
 
 }

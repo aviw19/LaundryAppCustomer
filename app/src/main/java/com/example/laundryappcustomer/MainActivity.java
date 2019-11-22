@@ -2,6 +2,7 @@ package com.example.laundryappcustomer;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
 
@@ -50,14 +52,10 @@ public class MainActivity extends AppCompatActivity {
         mPhoneNo = findViewById(R.id.phonenumber);
         mNextButton = findViewById(R.id.nextButton);
         settingCallBack();
-
         //Firebase Initialization
-
         FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
         mAuth=FirebaseAuth.getInstance();
-
         myRef = firebaseDatabase.getReference("Customer");
-
         // Read from the database
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void firebaseChecking() {
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
 
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -122,10 +120,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void loginUser() {
         Intent intent= new Intent(MainActivity.this,HomeActivity.class);
+        SharedPreferences sharedPreferences= getSharedPreferences(Common.SHARED_PREFS,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Customer saveUser = Common.currentUser;
+        Gson gson = new Gson();
+        String json = gson.toJson(saveUser);
+        editor.putString("CurrentUser", json);
+        editor.putString(Common.PHONENO,phoneNumber);
+        editor.putBoolean(Common.LOGIN,true);
+        editor.apply();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
-
     }
 
     private void registerUser() {

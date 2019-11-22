@@ -48,12 +48,15 @@ public class HomeFragment extends Fragment {
     private Requests mReq;
     private RadioButton sixKgbutton;
     private RadioButton EightKgButton;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference table_user = firebaseDatabase.getReference("Requests");
-    private DatabaseReference table_user2 = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
+    private FirebaseDatabase firebaseDatabase ;
+    private DatabaseReference table_user ;
+    private DatabaseReference table_user2;
     @Nullable
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        table_user = firebaseDatabase.getReference("Requests");
+        table_user2 = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
        View rootView =inflater.inflate(R.layout.fragment_home, container, false);
        mRequestOrder=rootView.findViewById(R.id.request_Order);
        mRequestOrderandIron = rootView.findViewById(R.id.request_Orderandiron);
