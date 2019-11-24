@@ -20,6 +20,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         String action=intent.getAction();
         String orderid=intent.getStringExtra("OrderId");
         String orderno=intent.getStringExtra("orderno");
+        String price=intent.getStringExtra("pay");
 
         int notificationid=intent.getIntExtra("notificationId",0);
 
@@ -33,6 +34,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             i.putExtra("orderid",orderid);
             i.putExtra("stat","frombroadcast");
             i.putExtra("orderno",orderno);
+            i.putExtra("pay",price);
             context.startActivity(i);
 
         }

@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 super.onCodeSent(s,forceResendingToken);
                 verificationCode = s;
-                Toast.makeText(MainActivity.this, "Sending OTP Please Verify", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Incoming OTP PLEASE VERIFY", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         String number=mPhoneNo.getText().toString();
         number = "+91"+number;
         PhoneAuthProvider.getInstance().verifyPhoneNumber(number,60, TimeUnit.SECONDS,this,mCallBacks);
-        Toast.makeText(MainActivity.this, "OTP Sent", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "OTP Sent Please Wait for 60s before trying again", Toast.LENGTH_SHORT).show();
     }
 
     private void showHelp() {

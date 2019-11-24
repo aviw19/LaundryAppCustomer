@@ -8,8 +8,9 @@ public class Requests {
     private String OrderID;
     private String Service;
     private String PaymentStatus;
+    private String Price;
 
-    public Requests(Customer user, String comments, String status, String weight,String OrderId,String service,String paymentstatus) {
+    public Requests(Customer user, String comments, String status, String weight,String OrderId,String service,String paymentstatus,String Price) {
         User = user;
         this.Comments = comments;
         this.Status = status;
@@ -17,6 +18,7 @@ public class Requests {
         this.OrderID = OrderId;
         Service = service;
         PaymentStatus=paymentstatus;
+        this.Price=Price;
     }
 
     public String getPaymentStatus() {
@@ -76,5 +78,12 @@ public class Requests {
 
     public void setWeight(String weight) {
         Weight = weight;
+    }
+    public String getPrice() {
+        return Price;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
     }
 }

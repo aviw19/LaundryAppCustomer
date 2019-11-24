@@ -38,7 +38,7 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
     String orderno="";
 
 
-    String pay="200";
+    String pay="";
     String stat="";
 
 
@@ -57,9 +57,11 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
         custid=intent.getStringExtra("orderid").substring(0,10);
         stat=intent.getStringExtra("stat");
         orderno=intent.getStringExtra("orderno");
+        pay=intent.getStringExtra("pay");
 
 
-        mid = "jvEiNC03754986614481"; /// your marchant key
+
+        mid = "ZLaDDN44432137852939"; /// your marchant key
         sendUserDetailTOServerdd dl = new sendUserDetailTOServerdd();
         dl.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -110,7 +112,7 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
             Log.e(" setup acc ","  signup result  " + result);
 
 
-            PaytmPGService Service = PaytmPGService.getStagingService();
+            PaytmPGService Service = PaytmPGService.getProductionService();
             // when app is ready to publish use production service
             //          PaytmPGService  Service = PaytmPGService.getProductionService();
 
@@ -122,7 +124,7 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
             paramMap.put("ORDER_ID", orderId);
             paramMap.put("CUST_ID", custid);
             paramMap.put("CHANNEL_ID", "WAP");
-            paramMap.put("TXN_AMOUNT","200");
+            paramMap.put("TXN_AMOUNT",pay);
             paramMap.put("WEBSITE", "WEBSTAGING");
             paramMap.put("CALLBACK_URL" ,varifyurl);
             //paramMap.put( "EMAIL" , "abc@gmail.com");   // no need
@@ -153,7 +155,7 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
         //System.exit(0);
         if(bundle.toString().contains("SUCCESS"))
         {
-            databaseReference.child(custid).child("orderList").child(orderno).child("status").setValue("Paid");
+            databaseReference.child(custid).child("orderList").child(Integer.toString(Integer.parseInt(orderno)-1)).child("paymentStatus").setValue("Paid");
         }
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
         homeIntent.addCategory( Intent.CATEGORY_HOME );
@@ -202,18 +204,18 @@ public class Payment extends AppCompatActivity implements PaytmPaymentTransactio
     @Override
     public void onBackPressedCancelTransaction() {
         Log.e("checksum ", " cancel call back respon  " );
-        //Toast.makeText(Payment.this,"You cancelled the transaction please try again later", Toast.LENGTH_SHORT).show();
-        //Intent intent= new Intent(Payment.this,HomeFragment.class);
-        //startActivity(intent);
+        Toast.makeText(Payment.this,"You cancelled the transaction please try again later", Toast.LENGTH_SHORT).show();
+        Intent intent= new Intent(Payment.this,HomeFragment.class);
+        startActivity(intent);
 
     }
 
     @Override
     public void onTransactionCancel(String s, Bundle bundle) {
         Log.e("checksum ", "  transaction cancel " );
-       // Toast.makeText(Payment.this,"Transaction Cancelled, please try again later", Toast.LENGTH_SHORT).show();
-        //Intent intent= new Intent(Payment.this,HomeFragment.class);
-        //startActivity(intent);
+       Toast.makeText(Payment.this,"Transaction Cancelled, please try again later", Toast.LENGTH_SHORT).show();
+        Intent intent= new Intent(Payment.this,HomeFragment.class);
+        startActivity(intent);
     }
 
 

@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     final DatabaseReference table_user = firebaseDatabase.getReference("Customer");
 
     GoogleSignInClient mGoogleSignInClient;
-    String[] mHostelList = new String[]{"SELECT ONE","AH1", "AH2", "AH3", "AH4", "AH5", "AH6", "AH7", "AH8", "AH9", "CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "DH1", "DH2", "DH3", "DH4"};
+    String[] mHostelList = new String[]{"SELECT HOSTEL","AH1", "AH2", "AH3", "AH4", "AH5", "AH6", "AH7", "AH8", "AH9", "CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "DH1", "DH2", "DH3", "DH4"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.child(mTextUsername.getText().toString()).exists()) {
                                 mDialog.dismiss();
-                                Toast.makeText(RegisterActivity.this, "USER ALREADY REGISTERED", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(RegisterActivity.this, "USER ALREADY REGISTERED", Toast.LENGTH_SHORT).show();
                                 mTextBitsId.getText().clear();
                                 mTextEmailId.getText().clear();
                                 mTextFullName.getText().clear();
@@ -132,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
                                 Customer user = new Customer(mTextFullName.getText().toString(), mTextBitsId.getText().toString(), mTextEmailId.getText().toString(), hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null,token);
                                 table_user.child(mTextUsername.getText().toString()).setValue(user);
-                                Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                 mTextRoomNo.getText().clear();
                                 mTextBitsId.getText().clear();
                                 mTextEmailId.getText().clear();
@@ -215,7 +215,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.child(mTextUsername.getText().toString()).exists()) {
 
-                                    Toast.makeText(RegisterActivity.this, "USER ALREADY REGISTERED", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(RegisterActivity.this, "USER ALREADY REGISTERED", Toast.LENGTH_SHORT).show();
                                     mTextBitsId.getText().clear();
                                     mTextEmailId.getText().clear();
                                     mTextFullName.getText().clear();
@@ -229,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
                                     Customer user = new Customer(FullName, mTextBitsId.getText().toString(), Email, hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null,token);
                                     table_user.child(mTextUsername.getText().toString()).setValue(user);
-                                    Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                     mTextBitsId.getText().clear();
                                     mTextEmailId.getText().clear();
                                     mTextFullName.getText().clear();

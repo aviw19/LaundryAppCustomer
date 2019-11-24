@@ -1,9 +1,6 @@
 package com.example.laundryappcustomer;
-
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +45,10 @@ public class HomeFragment extends Fragment {
     private Requests mReq;
     private RadioButton sixKgbutton;
     private RadioButton EightKgButton;
+    private RadioButton pickupanddrop;
+    private RadioButton onlydrop;
+    private String price;
+    private String service;
     private FirebaseDatabase firebaseDatabase ;
     private DatabaseReference table_user ;
     private DatabaseReference table_user2;
@@ -75,10 +76,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getLayoutInflater();
-                final View alertLayout = inflater.inflate(R.layout.request_comments, null);
+                final View alertLayout = inflater.inflate(R.layout.request_comments1, null);
                 mTextComment=alertLayout.findViewById(R.id.comments);
-                sixKgbutton = alertLayout.findViewById(R.id.sixkgbutton);
-                EightKgButton = alertLayout.findViewById(R.id.eightkgbutton);
+                sixKgbutton = alertLayout.findViewById(R.id.sixkgradiobutton1);
+                EightKgButton = alertLayout.findViewById(R.id.eightkgradiobutton1);
+                pickupanddrop = alertLayout.findViewById(R.id.pickupdrop1);
+                onlydrop = alertLayout.findViewById(R.id.pickupdrop2);
+                sixKgbutton.setText(R.string.sixkgorderandfold);
+                EightKgButton.setText(R.string.eightkgorderandfold);
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -96,13 +101,38 @@ public class HomeFragment extends Fragment {
                         else if(sixKgbutton.isChecked())
                         {
                             weight="6KG";
+                            price="199";
+                            sixKgbutton.setText("COST : 199RS");
                         }
                         else
                         {
+                            EightKgButton.setText("COST : 266RS");
                             weight="8KG";
+                            price="266";
                         }
-                        makingRequest1(weight);
-                        addingOrder(weight);
+                        if(pickupanddrop.isChecked() && onlydrop.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(!pickupanddrop.isChecked() && !onlydrop.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(pickupanddrop.isChecked())
+                        {
+                            price=Integer.toString(20+Integer.parseInt(price));
+                            service = "PICKUP AND DROP";
+                            makingRequest1(weight,service);
+                            addingOrder(weight,service);
+                        }
+                        else
+                        {
+                            price=Integer.toString(10+Integer.parseInt(price));
+                            service = "ONLY PICKUP";
+                            makingRequest1(weight,service);
+                            addingOrder(weight,service);
+                        }
+
                     }
                 });
                 alert.setView(alertLayout);
@@ -114,7 +144,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getLayoutInflater();
-                final View alertLayout = inflater.inflate(R.layout.request_comments, null);
+                final View alertLayout = inflater.inflate(R.layout.request_comments2, null);
                 mTextComment=alertLayout.findViewById(R.id.comments);
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
@@ -124,8 +154,12 @@ public class HomeFragment extends Fragment {
                         String weight="0KG";
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
-                        sixKgbutton = alertLayout.findViewById(R.id.sixkgbutton);
-                        EightKgButton = alertLayout.findViewById(R.id.eightkgbutton);
+                        sixKgbutton = alertLayout.findViewById(R.id.sixkgradiobutton1);
+                        EightKgButton = alertLayout.findViewById(R.id.eightkgradiobutton1);
+                        pickupanddrop = alertLayout.findViewById(R.id.pickupdrop1);
+                        onlydrop = alertLayout.findViewById(R.id.pickupdrop2);
+                        sixKgbutton.setText(R.string.sixkgorderandiron);
+                        EightKgButton.setText(R.string.eightkgorderandiron);
                         if(sixKgbutton.isChecked() && EightKgButton.isChecked())
                         {
                             Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
@@ -137,13 +171,34 @@ public class HomeFragment extends Fragment {
                         else if(sixKgbutton.isChecked())
                         {
                             weight="6KG";
+                            price="245";
                         }
                         else
                         {
                             weight="8KG";
+                            price="325";
                         }
-                        makingRequest2(weight);
-                        addingOrder(weight);
+                        if(pickupanddrop.isChecked() && onlydrop.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(!pickupanddrop.isChecked() && !onlydrop.isChecked())
+                        {
+                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(pickupanddrop.isChecked())
+                        {
+                            price=Integer.toString(20+Integer.parseInt(price));
+                            service = "PICKUP AND DROP";
+                            makingRequest2(weight,service);
+                            addingOrder(weight,service);
+                        }
+                        else {
+                            price=Integer.toString(10+Integer.parseInt(price));
+                            service = "DROP ONLY";
+                            makingRequest2(weight, service);
+                            addingOrder(weight, service);
+                        }
                     }
                 });
                 alert.setView(alertLayout);
@@ -154,44 +209,45 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void makingRequest1(String weight) {
-        mReq = new Requests(Common.currentUser,mComment,"REQUESTED",weight,OrderID,"Wash Only","NOT PAID");
-        table_user.child(OrderID).setValue(mReq);
-    }
-    private void makingRequest2(String weight) {
-        mReq = new Requests(Common.currentUser,mComment,"REQUESTED",weight,OrderID,"Wash and Iron","NOT PAID");
-        table_user.child(OrderID).setValue(mReq);
-    }
 
-    private void addingOrder(String weight) {
-        updatingOrderNo();
-        updateOrderList(weight);
-        changeInUser();
-    }
 
-    private void updatingOrderNo() {
-        int count = Integer.parseInt(Common.currentUser.getOrderCount());
-        count++;
-        Common.currentUser.setOrderCount(String.valueOf(count));
-    }
+                private void makingRequest1(String weight,String service) {
+                mReq = new Requests(Common.currentUser, mComment, "REQUESTED", weight, OrderID, "Wash Only " + service, "NOT PAID", price);
+                table_user.child(OrderID).setValue(mReq);
+            }
 
-    private void updateOrderList(String weight) {
-        Order n = new Order(mComment, "REQUESTED", weight, OrderID,"NOT YET",mReq.getService(),"NOT PAID");
-        OrderList = Common.currentUser.getOrderList();
-        if (OrderList != null) {
-            OrderList.add(n);
-            Common.currentUser.setOrderList(OrderList);
+            private void makingRequest2(String weight,String service) {
+                mReq = new Requests(Common.currentUser, mComment, "REQUESTED", weight, OrderID, "Wash and Iron " + service, "NOT PAID", price);
+                table_user.child(OrderID).setValue(mReq);
+            }
+
+            private void addingOrder(String weight,String service) {
+                updatingOrderNo();
+                updateOrderList(weight);
+                changeInUser();
+            }
+
+            private void updatingOrderNo() {
+                int count = Integer.parseInt(Common.currentUser.getOrderCount());
+                count++;
+                Common.currentUser.setOrderCount(String.valueOf(count));
+            }
+
+            private void updateOrderList(String weight) {
+                Order n = new Order(mComment, "REQUESTED", weight, OrderID, price, mReq.getService(), "NOT PAID");
+                OrderList = Common.currentUser.getOrderList();
+                if (OrderList != null) {
+                    OrderList.add(n);
+                    Common.currentUser.setOrderList(OrderList);
+                } else {
+                    OrderList = new ArrayList<>();
+                    OrderList.add(n);
+                    Common.currentUser.setOrderList(OrderList);
+                }
+            }
+
+            private void changeInUser() {
+                table_user2.setValue(Common.currentUser);
+            }
         }
-        else
-        {
-            OrderList = new ArrayList<>();
-            OrderList.add(n);
-            Common.currentUser.setOrderList(OrderList);
-        }
-    }
-
-    private void changeInUser(){
-        table_user2.setValue(Common.currentUser);
-    }
-}
 

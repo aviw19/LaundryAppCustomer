@@ -16,7 +16,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     private OnItemClickListener mListener;
     private ArrayList<Order> mOrderList;
     public interface OnItemClickListener {
-        void onPayClick(int position,String status);
+        void onPayClick(int position,String status,String payamt,String paymentstatus);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener)
@@ -32,6 +32,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         private TextView txtPrice;
         private Button mPayButton;
         private TextView txtService;
+
         public TextView txtPaymentStatus;
 
         public OrdersViewHolder(@NonNull View itemView,final OnItemClickListener listener) {
@@ -51,7 +52,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
                         {
-                                listener.onPayClick(position,"d");
+                                listener.onPayClick(position,mOrderList.get(position).getStatus(),mOrderList.get(position).getPrice(),mOrderList.get(position).getPaymentStatus());
                         }
 
 

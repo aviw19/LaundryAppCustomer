@@ -12,7 +12,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-
+    <string name="sixkgorderandfold">COST : 199RS</string>
+    <string name="eightkgorderandfold">COST : 266RS</string>
+    <string name="sixkgorderandiron">COST : 245RS</string>
+    <string name="eightkgorderandiron">COST : 325RS</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="other_details">Other DETAILS</string>

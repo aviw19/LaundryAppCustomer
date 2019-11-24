@@ -65,13 +65,15 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             int x=notificationBody.indexOf("A");
             String orderid=notificationBody.substring(0,x);
             String orderno=notificationBody.substring(10,x);
+            int y=notificationBody.length();
+            int d=notificationBody.indexOf("d");
+            String price=notificationBody.substring((d+1),y);
 
             Accept.setAction("Pay Now");
             Accept.putExtra("OrderId", orderid);
             Accept.putExtra("notificationId", random);
             Accept.putExtra("orderno",orderno);
-
-
+            Accept.putExtra("pay",price);
             PendingIntent snoozePendingIntent =
                     PendingIntent.getBroadcast(this, 0, Accept, PendingIntent.FLAG_UPDATE_CURRENT);
             Intent Decline = new Intent(this, MyBroadcastReceiver.class);

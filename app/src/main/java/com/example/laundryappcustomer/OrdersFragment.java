@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,13 +39,24 @@ public class OrdersFragment extends Fragment {
         mAdapter.setOnItemClickListener(new OrdersAdapter.OnItemClickListener()
         {
             @Override
-            public void onPayClick(int position, String status) {
+            public void onPayClick(int position, String status,String payamt,String paymentstatus) {
+                if (!(paymentstatus.equalsIgnoreCase("Paid"))) {
+                    if ((status.equalsIgnoreCase("REQUESTED"))||(status.equalsIgnoreCase("Accepted"))){
 
-                Intent intent = new Intent(getActivity(), Payment.class);
-                intent.putExtra("orderid", Common.currentUser.getPhoneno().concat(Common.currentUser.getOrderCount()));
-                intent.putExtra("orderno", Common.currentUser.getOrderCount());
-                intent.putExtra("stat", "x");
-                startActivity(intent);
+                        Intent intent = new Intent(getActivity(), Payment.class);
+                        intent.putExtra("orderid", Common.currentUser.getPhoneno().concat(Common.currentUser.getOrderCount()));
+                        intent.putExtra("orderno", Common.currentUser.getOrderCount());
+                        intent.putExtra("stat", "x");
+                        intent.putExtra("pay", payamt);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getActivity(), "Cannot Pay Yet, Please Wait", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+
+                    Toast.makeText(getActivity(), "Already Paid", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
