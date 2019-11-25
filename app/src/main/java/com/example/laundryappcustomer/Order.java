@@ -9,8 +9,9 @@ public class Order {
     private String Price;
     private String Service;
     private String PaymentStatus;
+    private String Merchant;
 
-    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus) {
+    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus,String merchant) {
         Comments = comments;
         Status = status;
         Weight = weight;
@@ -18,10 +19,19 @@ public class Order {
         Price = price;
         Service = service;
         PaymentStatus=paymentStatus;
+        Merchant=merchant;
     }
 
     public String getPaymentStatus() {
         return PaymentStatus;
+    }
+
+    public String getMerchant() {
+        return Merchant;
+    }
+
+    public void setMerchant(String merchant) {
+        Merchant = merchant;
     }
 
     public void setPaymentStatus(String paymentStatus) {

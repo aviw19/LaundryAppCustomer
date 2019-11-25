@@ -54,8 +54,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
                         {
                                 listener.onPayClick(position,mOrderList.get(position).getStatus(),mOrderList.get(position).getPrice(),mOrderList.get(position).getPaymentStatus());
                         }
-
-
                     }
                     else
                     {

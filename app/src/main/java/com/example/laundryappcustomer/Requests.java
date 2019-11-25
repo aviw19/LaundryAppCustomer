@@ -8,17 +8,18 @@ public class Requests {
     private String OrderID;
     private String Service;
     private String PaymentStatus;
+    private String Merchant;
     private String Price;
 
-    public Requests(Customer user, String comments, String status, String weight,String OrderId,String service,String paymentstatus,String Price) {
-        User = user;
+    public Requests(String comments, String status, String weight,String OrderId,String service,String paymentstatus,String merchant,String price) {
         this.Comments = comments;
         this.Status = status;
         Weight = weight;
         this.OrderID = OrderId;
         Service = service;
         PaymentStatus=paymentstatus;
-        this.Price=Price;
+        this.Price=price;
+        Merchant=merchant;
     }
 
     public String getPaymentStatus() {
@@ -27,6 +28,14 @@ public class Requests {
 
     public void setPaymentStatus(String paymentStatus) {
         PaymentStatus = paymentStatus;
+    }
+
+    public String getMerchant() {
+        return Merchant;
+    }
+
+    public void setMerchant(String merchant) {
+        Merchant = merchant;
     }
 
     public String getService() {

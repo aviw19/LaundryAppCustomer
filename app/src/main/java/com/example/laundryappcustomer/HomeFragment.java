@@ -1,6 +1,9 @@
 package com.example.laundryappcustomer;
+
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,8 +85,6 @@ public class HomeFragment extends Fragment {
                 EightKgButton = alertLayout.findViewById(R.id.eightkgradiobutton1);
                 pickupanddrop = alertLayout.findViewById(R.id.pickupdrop1);
                 onlydrop = alertLayout.findViewById(R.id.pickupdrop2);
-                sixKgbutton.setText(R.string.sixkgorderandfold);
-                EightKgButton.setText(R.string.eightkgorderandfold);
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -158,8 +159,6 @@ public class HomeFragment extends Fragment {
                         EightKgButton = alertLayout.findViewById(R.id.eightkgradiobutton1);
                         pickupanddrop = alertLayout.findViewById(R.id.pickupdrop1);
                         onlydrop = alertLayout.findViewById(R.id.pickupdrop2);
-                        sixKgbutton.setText(R.string.sixkgorderandiron);
-                        EightKgButton.setText(R.string.eightkgorderandiron);
                         if(sixKgbutton.isChecked() && EightKgButton.isChecked())
                         {
                             Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
@@ -209,21 +208,18 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
-
-                private void makingRequest1(String weight,String service) {
-                mReq = new Requests(Common.currentUser, mComment, "REQUESTED", weight, OrderID, "Wash Only " + service, "NOT PAID", price);
-                table_user.child(OrderID).setValue(mReq);
-            }
-
-            private void makingRequest2(String weight,String service) {
-                mReq = new Requests(Common.currentUser, mComment, "REQUESTED", weight, OrderID, "Wash and Iron " + service, "NOT PAID", price);
-                table_user.child(OrderID).setValue(mReq);
-            }
+    private void makingRequest1(String weight,String service) {
+        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash Only" + service,"NOT PAID",Common.merchantphone,price);
+        table_user.child(OrderID).setValue(mReq);
+    }
+    private void makingRequest2(String weight,String service) {
+        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash and Iron" + service,"NOT PAID",Common.merchantphone,price);
+        table_user.child(OrderID).setValue(mReq);
+    }
 
             private void addingOrder(String weight,String service) {
                 updatingOrderNo();
-                updateOrderList(weight);
+                updateOrderList(weight,service);
                 changeInUser();
             }
 
@@ -233,18 +229,20 @@ public class HomeFragment extends Fragment {
                 Common.currentUser.setOrderCount(String.valueOf(count));
             }
 
-            private void updateOrderList(String weight) {
-                Order n = new Order(mComment, "REQUESTED", weight, OrderID, price, mReq.getService(), "NOT PAID");
-                OrderList = Common.currentUser.getOrderList();
-                if (OrderList != null) {
-                    OrderList.add(n);
-                    Common.currentUser.setOrderList(OrderList);
-                } else {
-                    OrderList = new ArrayList<>();
-                    OrderList.add(n);
-                    Common.currentUser.setOrderList(OrderList);
-                }
-            }
+    private void updateOrderList(String weight,String service) {
+        Order n = new Order(mComment, "REQUESTED", weight, OrderID,price,mReq.getService(),"NOT PAID",Common.merchantphone);
+        OrderList = Common.currentUser.getOrderList();
+        if (OrderList != null) {
+            OrderList.add(n);
+            Common.currentUser.setOrderList(OrderList);
+        }
+        else
+        {
+            OrderList = new ArrayList<>();
+            OrderList.add(n);
+            Common.currentUser.setOrderList(OrderList);
+        }
+    }
 
             private void changeInUser() {
                 table_user2.setValue(Common.currentUser);

@@ -43,11 +43,10 @@ public class OrdersFragment extends Fragment {
                 if (!(paymentstatus.equalsIgnoreCase("Paid"))) {
                     if ((status.equalsIgnoreCase("REQUESTED"))||(status.equalsIgnoreCase("Accepted"))){
 
-                        Intent intent = new Intent(getActivity(), Payment.class);
-                        intent.putExtra("orderid", Common.currentUser.getPhoneno().concat(Common.currentUser.getOrderCount()));
-                        intent.putExtra("orderno", Common.currentUser.getOrderCount());
-                        intent.putExtra("stat", "x");
-                        intent.putExtra("pay", payamt);
+                        Intent intent = new Intent(getActivity(), UpiPayment.class);
+                        intent.putExtra("stats",mOrderList.get(position).getStatus());
+                        intent.putExtra("orderno",String.valueOf(position+1));
+                        intent.putExtra("price", mOrderList.get(position).getPrice());
                         startActivity(intent);
                     } else {
                         Toast.makeText(getActivity(), "Cannot Pay Yet, Please Wait", Toast.LENGTH_SHORT).show();
