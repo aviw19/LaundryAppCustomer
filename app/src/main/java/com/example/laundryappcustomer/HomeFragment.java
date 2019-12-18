@@ -1,7 +1,9 @@
 package com.example.laundryappcustomer;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -149,9 +152,8 @@ public class HomeFragment extends Fragment {
                 mTextComment=alertLayout.findViewById(R.id.comments);
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Intent toPayment = new Intent(getActivity(),Payment.class);
-                        //startActivity(toPayment);
+                    public void onClick(DialogInterface dialog, int which)
+                    {
                         String weight="0KG";
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
@@ -246,6 +248,14 @@ public class HomeFragment extends Fragment {
 
             private void changeInUser() {
                 table_user2.setValue(Common.currentUser);
+                SharedPreferences sharedPreferences= this.getActivity().getSharedPreferences(Common.SHARED_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(Common.currentUser);
+                editor.putString("CurrentUser", json);
+                editor.putString(Common.PHONENO,Common.currentUser.getPhoneno());
+                editor.putBoolean(Common.LOGIN,true);
+                editor.apply();
             }
-        }
+}
 
