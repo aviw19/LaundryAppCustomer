@@ -1,6 +1,7 @@
 package com.example.laundryappcustomer;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -34,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.gson.Gson;
 
 
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
@@ -228,6 +230,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                     token=FirebaseTokeGeneration.token;
 
                                     Customer user = new Customer(FullName, mTextBitsId.getText().toString(), Email, hostel, mTextRoomNo.getText().toString(),mTextUsername.getText().toString(),"0",null,token);
+                                    Common.currentUser=user;
                                     table_user.child(mTextUsername.getText().toString()).setValue(user);
                                     //Toast.makeText(RegisterActivity.this, "REGISTERED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                     mTextBitsId.getText().clear();
@@ -235,8 +238,18 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                     mTextFullName.getText().clear();
                                     mTextRoomNo.getText().clear();
 
-                                    Intent toLogin = new Intent(RegisterActivity.this, HomeActivity.class);
-                                    startActivity(toLogin);
+                                    Intent intent= new Intent(RegisterActivity.this,HomeActivity.class);
+                                    SharedPreferences sharedPreferences= getSharedPreferences(Common.SHARED_PREFS,MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Customer saveUser = Common.currentUser;
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(saveUser);
+                                    editor.putString("CurrentUser", json);
+                                    editor.putString(Common.PHONENO,mTextUsername.getText().toString());
+                                    editor.putBoolean(Common.LOGIN,true);
+                                    editor.apply();
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
                                     finish();
 
                                 }
