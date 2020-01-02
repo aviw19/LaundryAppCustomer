@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -116,18 +118,37 @@ public class UpiPayment extends AppCompatActivity {
                     databaseReference2.child(Common.phoneNo+(Integer.parseInt(orderno)-1)).child("paymentStatus").setValue("Paid");
                     updateOrderList("PAID");
                 Log.d("UPI", "responseStr: "+approvalRefNo);
-                Intent intent=new Intent(UpiPayment.this,HomeActivity.class);
-                startActivity(intent);
+                taketohome();
             }
             else if("Payment cancelled by user.".equals(paymentCancel)) {
                 Toast.makeText(UpiPayment.this, "Payment cancelled by user.", Toast.LENGTH_SHORT).show();
+                updateOrderList("Payment cancelled by user");
+                taketohome();
             }
             else {
                 Toast.makeText(UpiPayment.this, "Transaction failed.Please try again", Toast.LENGTH_SHORT).show();
+                updateOrderList("transaction failed try again");
+                taketohome();
             }
         } else {
             Toast.makeText(UpiPayment.this, "Internet connection is not available. Please check and try again", Toast.LENGTH_SHORT).show();
+            taketohome();
         }
+    }
+
+    private void taketohome() {
+        Intent intent=new Intent(UpiPayment.this,HomeActivity.class);
+        SharedPreferences sharedPreferences= getSharedPreferences(Common.SHARED_PREFS,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Customer saveUser = Common.currentUser;
+        Gson gson = new Gson();
+        String json = gson.toJson(saveUser);
+        editor.putString("CurrentUser", json);
+        editor.putString(Common.PHONENO,Common.currentUser.getPhoneno());
+        editor.putBoolean(Common.LOGIN,true);
+        editor.apply();
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private boolean isConnectionAvailable(Context context) {

@@ -1,11 +1,8 @@
 package com.example.laundryappcustomer;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,33 +10,15 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-
 import org.jetbrains.annotations.NotNull;
-
-import java.security.PrivateKey;
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
-import static java.lang.Integer.parseInt;
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
     private ImageView mRequestOrder;
@@ -248,7 +227,7 @@ public class HomeFragment extends Fragment {
 
             private void changeInUser() {
                 table_user2.setValue(Common.currentUser);
-                SharedPreferences sharedPreferences= this.getActivity().getSharedPreferences(Common.SHARED_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences= this.getActivity().getSharedPreferences(Common.SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 Gson gson = new Gson();
                 String json = gson.toJson(Common.currentUser);
