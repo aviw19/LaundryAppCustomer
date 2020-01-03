@@ -30,6 +30,11 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     final int min = 0;
     final int max = 9;
     final int random = new Random().nextInt((max - min) + 1) + min;
+    private String pseuodonotificationbody;
+    private String n1;
+    private String status;
+    private String requestid;
+    private String payp;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -40,7 +45,14 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getData());
             Map<String, String> data=remoteMessage.getData();
-            notificationBody=data.get("body");
+            pseuodonotificationbody=data.get("body");
+            int y=pseuodonotificationbody.indexOf(" ");
+            int z=pseuodonotificationbody.lastIndexOf(" ");
+
+            status=pseuodonotificationbody.substring(y+1,z);
+            requestid=pseuodonotificationbody.substring(0,y);
+            payp=pseuodonotificationbody.substring(z+1);
+            notificationBody=("Your request with id ").concat(requestid).concat(" is ").concat(status);
             notificationTitle=data.get("title");
 
         }
@@ -63,22 +75,22 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         if(notificationBody.contains("Accepted")) {
             int x=notificationBody.indexOf("A");
-            String orderid=notificationBody.substring(0,x);
-            String orderno=notificationBody.substring(10,x);
+            String orderid=requestid.substring(0,10);
+            String orderno=requestid.substring(10);
             int y=notificationBody.length();
             int d=notificationBody.indexOf("d");
-            String price=notificationBody.substring((d+1),y);
+
 
             Accept.setAction("Pay Now");
             Accept.putExtra("OrderId", orderid);
             Accept.putExtra("notificationId", random);
             Accept.putExtra("orderno",orderno);
-            Accept.putExtra("pay",price);
+            Accept.putExtra("pay",payp);
             PendingIntent snoozePendingIntent =
                     PendingIntent.getBroadcast(this, 0, Accept, PendingIntent.FLAG_UPDATE_CURRENT);
             Intent Decline = new Intent(this, MyBroadcastReceiver.class);
             Decline.setAction("Pay Later");
-            Decline.putExtra("RequestId", notificationBody.substring(0, 10));
+            Decline.putExtra("RequestId", requestid.substring(0, 10));
             Decline.putExtra("notificationId", random);
             PendingIntent snoozePendingIntent1 = PendingIntent.getBroadcast(this, 0, Decline, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -95,6 +107,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         else
         {
             Accept.setAction("Ok");
+            Accept.putExtra("notificationId", random);
             PendingIntent snoozePendingIntent =
                     PendingIntent.getBroadcast(this, 0, Accept, PendingIntent.FLAG_UPDATE_CURRENT);
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        table_user = firebaseDatabase.getReference("Requests");
+        table_user = firebaseDatabase.getReference("Requests").child(Common.merchantphone);
         table_user2 = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
        View rootView =inflater.inflate(R.layout.fragment_home, container, false);
        mRequestOrder=rootView.findViewById(R.id.request_Order);
@@ -192,10 +192,15 @@ public class HomeFragment extends Fragment {
     private void makingRequest1(String weight,String service) {
         mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash Only" + service,"NOT PAID",Common.merchantphone,price);
         table_user.child(OrderID).setValue(mReq);
+        String token=FirebaseTokeGeneration.token;
+        table_user2.child("firebaseToken").setValue(token);
+
     }
     private void makingRequest2(String weight,String service) {
         mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash and Iron" + service,"NOT PAID",Common.merchantphone,price);
         table_user.child(OrderID).setValue(mReq);
+        String token=FirebaseTokeGeneration.token;
+        table_user2.child("firebaseToken").setValue(token);
     }
 
             private void addingOrder(String weight,String service) {

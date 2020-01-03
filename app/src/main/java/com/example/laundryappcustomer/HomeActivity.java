@@ -31,10 +31,17 @@ import static android.content.ContentValues.TAG;
 
 
 public class HomeActivity extends AppCompatActivity implements EditBottomSheet.BottomSheetListener {
+
     Fragment selectedFragment;
+    private FirebaseDatabase firebaseDatabase ;
+    private DatabaseReference table_user ;
+    private DatabaseReference table_user2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        table_user = firebaseDatabase.getReference("Requests").child(Common.merchantphone);
+        table_user2 = firebaseDatabase.getReference("Customer").child(Common.currentUser.getPhoneno());
         setContentView(R.layout.activity_home);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -44,6 +51,8 @@ public class HomeActivity extends AppCompatActivity implements EditBottomSheet.B
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
         }
+        String token=FirebaseTokeGeneration.token;
+        table_user2.child("firebaseToken").setValue(token);
 
 
     }

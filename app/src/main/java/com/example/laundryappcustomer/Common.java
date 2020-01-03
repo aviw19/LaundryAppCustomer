@@ -7,7 +7,7 @@ public class Common {
     public static final String LOGIN = "false";
     public static String merchantUpi="8720014333@paytm";
     public static String merchantname="Atharwa Dharwa";
-    public static String merchantphone="8720014333";
+    public static String merchantphone="7777777777";
     public static String NotificationTitle;
     public static String NotificationBody;
 }

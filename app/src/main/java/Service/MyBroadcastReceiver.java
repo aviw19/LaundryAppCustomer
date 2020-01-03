@@ -7,6 +7,7 @@ import android.content.Intent;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.laundryappcustomer.Payment;
+import com.example.laundryappcustomer.UpiPayment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,13 +29,13 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         {
             NotificationManagerCompat nm =  NotificationManagerCompat.from(context);
             nm.cancel(notificationid);
-            Intent i = new Intent(context.getApplicationContext(),Payment.class);
+            Intent i = new Intent(context.getApplicationContext(), UpiPayment.class);
 
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra("orderid",orderid);
             i.putExtra("stat","frombroadcast");
             i.putExtra("orderno",orderno);
-            i.putExtra("pay",price);
+            i.putExtra("price",price);
             context.startActivity(i);
 
         }
@@ -44,9 +45,10 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             NotificationManagerCompat nm =  NotificationManagerCompat.from(context);
             nm.cancel(notificationid);
         }
-        if(action.contains("Ok"))
+        if(action.equals("Ok"))
         {
             NotificationManagerCompat nm =  NotificationManagerCompat.from(context);
+            //nm.cancel(notificationid);
             nm.cancel(notificationid);
         }
 
