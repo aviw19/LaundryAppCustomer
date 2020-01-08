@@ -23,7 +23,7 @@ public class UpiPayment extends AppCompatActivity {
     final int UPI_PAYMENT =0;
     private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference=firebaseDatabase.getReference("Customer");
-    private DatabaseReference databaseReference2=firebaseDatabase.getReference("Requests");
+    private DatabaseReference databaseReference2=firebaseDatabase.getReference("Requests").child(Common.merchantphone);
     String orderno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

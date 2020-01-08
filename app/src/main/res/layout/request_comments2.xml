@@ -75,6 +75,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/pickupdrop2"
             android:layout_below="@+id/pickupdrop1"
-            android:text="ONLY PICKUP  10RS EXTRA"/>
+            android:text="ONLY PICKUP FROM HOME  10RS EXTRA"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pickupdrop3"
+            android:layout_below="@+id/pickupdrop2"
+            android:text="ONLY DROP AT HOME 10RS EXTRA"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pickupdrop4"
+            android:layout_below="@+id/pickupdrop1"
+            android:text="NO PICKUP AND DROP NO CHARGES"/>
     </RadioGroup>
 </RelativeLayout>

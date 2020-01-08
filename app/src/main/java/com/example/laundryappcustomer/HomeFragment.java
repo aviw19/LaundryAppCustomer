@@ -32,6 +32,8 @@ public class HomeFragment extends Fragment {
     private RadioButton EightKgButton;
     private RadioButton pickupanddrop;
     private RadioButton onlydrop;
+    private RadioButton onlypickup;
+    private RadioButton noservice;
     private String price;
     private String service;
     private FirebaseDatabase firebaseDatabase ;
@@ -66,54 +68,72 @@ public class HomeFragment extends Fragment {
                 sixKgbutton = alertLayout.findViewById(R.id.sixkgradiobutton1);
                 EightKgButton = alertLayout.findViewById(R.id.eightkgradiobutton1);
                 pickupanddrop = alertLayout.findViewById(R.id.pickupdrop1);
-                onlydrop = alertLayout.findViewById(R.id.pickupdrop2);
-                alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                onlypickup = alertLayout.findViewById(R.id.pickupdrop2);
+                onlydrop=alertLayout.findViewById(R.id.pickupdrop3);
+                noservice=alertLayout.findViewById(R.id.pickupdrop4);
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alert.setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String weight="0KG";
                         OrderID= Common.currentUser.getPhoneno()+Common.currentUser.getOrderCount();
                         mComment=mTextComment.getText().toString();
-                        if(sixKgbutton.isChecked() && EightKgButton.isChecked())
-                        {
-                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(!sixKgbutton.isChecked() && !EightKgButton.isChecked())
-                        {
-                            Toast.makeText(getActivity(),"Please select a category for weight",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(sixKgbutton.isChecked())
+
+                        if(sixKgbutton.isChecked())
                         {
                             weight="6KG";
                             price="199";
                             sixKgbutton.setText("COST : 199RS");
                         }
-                        else
+                        if(EightKgButton.isChecked())
                         {
                             EightKgButton.setText("COST : 266RS");
                             weight="8KG";
                             price="266";
                         }
-                        if(pickupanddrop.isChecked() && onlydrop.isChecked())
+                        if(!(sixKgbutton.isChecked())&&!(EightKgButton.isChecked()))
                         {
-                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Please select a weight slab",Toast.LENGTH_SHORT).show();
                         }
-                        else if(!pickupanddrop.isChecked() && !onlydrop.isChecked())
-                        {
-                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(pickupanddrop.isChecked())
+
+                        if(pickupanddrop.isChecked())
                         {
                             price=Integer.toString(20+Integer.parseInt(price));
                             service = "PICKUP AND DROP";
                             makingRequest1(weight,service);
                             addingOrder(weight,service);
                         }
-                        else
+                        else if(onlypickup.isChecked())
                         {
                             price=Integer.toString(10+Integer.parseInt(price));
-                            service = "ONLY PICKUP";
+                            service = "ONLY PICKUP FROM HOME";
                             makingRequest1(weight,service);
                             addingOrder(weight,service);
+                        }
+                        else if(onlydrop.isChecked())
+                        {
+                            price=Integer.toString(10+Integer.parseInt(price));
+                            service = "ONLY DROP AT HOME";
+                            makingRequest1(weight,service);
+                            addingOrder(weight,service);
+                        }
+                        else if(noservice.isChecked())
+                        {
+                            price=Integer.toString(10+Integer.parseInt(price));
+                            service = "NO PICKUP AND DROP";
+                            makingRequest1(weight,service);
+                            addingOrder(weight,service);
+                        }
+                        else
+                        {
+
+                            Toast.makeText(getActivity(),"Please select a service",Toast.LENGTH_SHORT).show();
+
                         }
 
                     }
@@ -122,6 +142,7 @@ public class HomeFragment extends Fragment {
                 alert.show();
             }
         });
+
         mRequestOrderandIron.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +150,13 @@ public class HomeFragment extends Fragment {
                 LayoutInflater inflater = getLayoutInflater();
                 final View alertLayout = inflater.inflate(R.layout.request_comments2, null);
                 mTextComment=alertLayout.findViewById(R.id.comments);
-                alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alert.setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
@@ -139,45 +166,59 @@ public class HomeFragment extends Fragment {
                         sixKgbutton = alertLayout.findViewById(R.id.sixkgradiobutton1);
                         EightKgButton = alertLayout.findViewById(R.id.eightkgradiobutton1);
                         pickupanddrop = alertLayout.findViewById(R.id.pickupdrop1);
-                        onlydrop = alertLayout.findViewById(R.id.pickupdrop2);
-                        if(sixKgbutton.isChecked() && EightKgButton.isChecked())
+                        onlypickup = alertLayout.findViewById(R.id.pickupdrop2);
+                        onlydrop=alertLayout.findViewById(R.id.pickupdrop3);
+                        noservice=alertLayout.findViewById(R.id.pickupdrop4);
+
+                        if(!sixKgbutton.isChecked() && !EightKgButton.isChecked())
                         {
-                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Please select a weight slab",Toast.LENGTH_SHORT).show();
                         }
-                        else if(!sixKgbutton.isChecked() && !EightKgButton.isChecked())
-                        {
-                            Toast.makeText(getActivity(),"Please select a category for weight",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(sixKgbutton.isChecked())
+                        if(sixKgbutton.isChecked())
                         {
                             weight="6KG";
                             price="245";
                         }
-                        else
+                        if(EightKgButton.isChecked())
                         {
                             weight="8KG";
                             price="325";
                         }
-                        if(pickupanddrop.isChecked() && onlydrop.isChecked())
-                        {
-                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(!pickupanddrop.isChecked() && !onlydrop.isChecked())
-                        {
-                            Toast.makeText(getActivity(),"Please select only a single category for weight",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(pickupanddrop.isChecked())
+
+
+                        if(pickupanddrop.isChecked())
                         {
                             price=Integer.toString(20+Integer.parseInt(price));
                             service = "PICKUP AND DROP";
                             makingRequest2(weight,service);
                             addingOrder(weight,service);
                         }
-                        else {
+                        else if(onlypickup.isChecked())
+                        {
                             price=Integer.toString(10+Integer.parseInt(price));
-                            service = "DROP ONLY";
-                            makingRequest2(weight, service);
-                            addingOrder(weight, service);
+                            service = "ONLY PICKUP FROM HOME";
+                            makingRequest2(weight,service);
+                            addingOrder(weight,service);
+                        }
+                        else if(onlydrop.isChecked())
+                        {
+                            price=Integer.toString(10+Integer.parseInt(price));
+                            service = "ONLY DROP AT HOME";
+                            makingRequest2(weight,service);
+                            addingOrder(weight,service);
+                        }
+                        else if(noservice.isChecked())
+                        {
+                            price=Integer.toString(10+Integer.parseInt(price));
+                            service = "NO PICKUP AND DROP";
+                            makingRequest2(weight,service);
+                            addingOrder(weight,service);
+                        }
+                        else
+                        {
+
+                            Toast.makeText(getActivity(),"Please select a service",Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
@@ -207,6 +248,8 @@ public class HomeFragment extends Fragment {
                 updatingOrderNo();
                 updateOrderList(weight,service);
                 changeInUser();
+                String token=FirebaseTokeGeneration.token;
+                table_user2.child("firebaseToken").setValue(token);
             }
 
             private void updatingOrderNo() {

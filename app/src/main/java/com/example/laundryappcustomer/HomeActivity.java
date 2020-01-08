@@ -51,6 +51,7 @@ public class HomeActivity extends AppCompatActivity implements EditBottomSheet.B
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
         }
+        FirebaseTokeGeneration.main();
         String token=FirebaseTokeGeneration.token;
         table_user2.child("firebaseToken").setValue(token);
 
@@ -67,6 +68,8 @@ public class HomeActivity extends AppCompatActivity implements EditBottomSheet.B
                     switch (item.getItemId()) {
                         case R.id.nav_home:
                             selectedFragment = new HomeFragment();
+                            String token=FirebaseTokeGeneration.token;
+                            table_user2.child("firebaseToken").setValue(token);
                             break;
                         case R.id.nav_orders:
                             selectedFragment = new OrdersFragment();

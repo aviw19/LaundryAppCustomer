@@ -24,7 +24,9 @@ public class OrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView =inflater.inflate(R.layout.fragment_orders, container, false);
+
         createRecyclerView();
+
         return rootView;
     }
 
@@ -41,7 +43,7 @@ public class OrdersFragment extends Fragment {
             @Override
             public void onPayClick(int position, String status,String payamt,String paymentstatus) {
                 if (!(paymentstatus.equalsIgnoreCase("Paid"))) {
-                    if ((status.equalsIgnoreCase("REQUESTED"))||(status.equalsIgnoreCase("Accepted")))
+                    if ((status.equalsIgnoreCase("Accepted")))
                     {
                         Intent intent = new Intent(getActivity(), UpiPayment.class);
                         intent.putExtra("stats",mOrderList.get(position).getStatus());
@@ -51,7 +53,9 @@ public class OrdersFragment extends Fragment {
                     }
                     else
                         {
+                            mAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "Cannot Pay Yet, Please Wait", Toast.LENGTH_SHORT).show();
+
                     }
                 } else {
                     Toast.makeText(getActivity(), "Already Paid", Toast.LENGTH_SHORT).show();
