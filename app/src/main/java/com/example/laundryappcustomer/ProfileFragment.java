@@ -19,6 +19,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.zxing.WriterException;
 import java.io.IOException;
+import java.util.Objects;
+
 import android.content.SharedPreferences;
 
 
@@ -91,9 +93,9 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    public void logOutAndChangeData()
+    private void logOutAndChangeData()
     {
-        SharedPreferences sharedPreferences= this.getActivity().getSharedPreferences(Common.SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(Common.SHARED_PREFS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(null);
