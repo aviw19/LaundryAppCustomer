@@ -28,6 +28,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     Spinner spinner2;
     String hostel;
     String token;
+    FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 9001;
     final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     final DatabaseReference table_user = firebaseDatabase.getReference("Customer");
@@ -103,6 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         mTextViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAuth.signOut();
                 Intent LoginIntent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(LoginIntent);
             }
