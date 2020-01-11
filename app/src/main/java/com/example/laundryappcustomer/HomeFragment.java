@@ -17,7 +17,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
+
+import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
@@ -231,14 +235,18 @@ public class HomeFragment extends Fragment {
     }
 
     private void makingRequest1(String weight,String service) {
-        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash Only" + service,"NOT PAID",Common.merchantphone,price);
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash Only" + service,"NOT PAID",Common.merchantphone,price,ts);
         table_user.child(OrderID).setValue(mReq);
         String token=FirebaseTokeGeneration.token;
         table_user2.child("firebaseToken").setValue(token);
 
     }
     private void makingRequest2(String weight,String service) {
-        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash and Iron" + service,"NOT PAID",Common.merchantphone,price);
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash and Iron" + service,"NOT PAID",Common.merchantphone,price,ts);
         table_user.child(OrderID).setValue(mReq);
         String token=FirebaseTokeGeneration.token;
         table_user2.child("firebaseToken").setValue(token);
@@ -259,7 +267,9 @@ public class HomeFragment extends Fragment {
             }
 
     private void updateOrderList(String weight,String service) {
-        Order n = new Order(mComment, "REQUESTED", weight, OrderID,price,mReq.getService(),"NOT PAID",Common.merchantphone);
+        Long tsLong = System.currentTimeMillis();
+        String ts = tsLong.toString();
+        Order n = new Order(mComment, "REQUESTED", weight, OrderID,price,mReq.getService(),"NOT PAID",Common.merchantphone,ts);
         OrderList = Common.currentUser.getOrderList();
         if (OrderList != null) {
             OrderList.add(n);

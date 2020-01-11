@@ -7,12 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OrdersFragment extends Fragment {
     private ArrayList<Order> mOrderList=new ArrayList<>();
@@ -24,10 +31,30 @@ public class OrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView =inflater.inflate(R.layout.fragment_orders, container, false);
-
+        updateList();
         createRecyclerView();
-
         return rootView;
+    }
+
+    private void updateList() {
+        FirebaseDatabase.getInstance().getReference("Customer").child(Common.currentUser.getPhoneno()).child("orderList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Order> orderList=new ArrayList<>();
+                for(DataSnapshot orders : dataSnapshot.getChildren())
+                {
+                    Order s = orders.getValue(Order.class);
+                    orderList.add(s);
+                }
+                Collections.reverse(orderList);
+                Common.currentUser.setOrderList(orderList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void createRecyclerView() {

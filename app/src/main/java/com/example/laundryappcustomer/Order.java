@@ -8,10 +8,11 @@ public class Order {
     private String OrderID;
     private String Price;
     private String Service;
+    private String timestamp;
     private String PaymentStatus;
     private String Merchant;
 
-    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus,String merchant) {
+    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus,String merchant,String timestamp) {
         Comments = comments;
         Status = status;
         Weight = weight;
@@ -20,6 +21,15 @@ public class Order {
         Service = service;
         PaymentStatus=paymentStatus;
         Merchant=merchant;
+        this.timestamp=timestamp;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getPaymentStatus() {

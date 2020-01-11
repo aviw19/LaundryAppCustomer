@@ -10,7 +10,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
     private OnItemClickListener mListener;
@@ -31,6 +38,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         private TextView txtWeight;
         private TextView txtPrice;
         private Button mPayButton;
+        private TextView timestamp;
         private TextView txtService;
 
         public TextView txtPaymentStatus;
@@ -43,6 +51,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             txtStatus = itemView.findViewById(R.id.order_status);
             txtPrice = itemView.findViewById(R.id.order_Price);
             mPayButton = itemView.findViewById(R.id.pay_button);
+            timestamp = itemView.findViewById(R.id.timestamp);
             txtService = itemView.findViewById(R.id.order_service);
             txtPaymentStatus = itemView.findViewById(R.id.order_paymentstatus);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +94,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             holder.txtWeight.setText(currentItem.getWeight());
             holder.txtStatus.setText(currentItem.getStatus());
             holder.txtPrice.setText(currentItem.getPrice());
+            holder.timestamp.setText(DateFormat.getInstance().format(Long.parseLong(currentItem.getTimestamp())));
             holder.txtService.setText(currentItem.getService());
             holder.txtPaymentStatus.setText(currentItem.getPaymentStatus());
             holder.mPayButton.setOnClickListener(new View.OnClickListener() {

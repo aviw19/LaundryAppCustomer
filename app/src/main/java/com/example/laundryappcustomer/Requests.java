@@ -9,9 +9,10 @@ public class Requests {
     private String Service;
     private String PaymentStatus;
     private String Merchant;
+    private String timestamp;
     private String Price;
 
-    public Requests(String comments, String status, String weight,String OrderId,String service,String paymentstatus,String merchant,String price) {
+    public Requests(String comments, String status, String weight,String OrderId,String service,String paymentstatus,String merchant,String price,String timestamp) {
         this.Comments = comments;
         this.Status = status;
         Weight = weight;
@@ -20,6 +21,15 @@ public class Requests {
         PaymentStatus=paymentstatus;
         this.Price=price;
         Merchant=merchant;
+        this.timestamp=timestamp;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getPaymentStatus() {
