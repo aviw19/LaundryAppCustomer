@@ -46,7 +46,6 @@ public class OrdersFragment extends Fragment {
                     Order s = orders.getValue(Order.class);
                     orderList.add(s);
                 }
-                Collections.reverse(orderList);
                 Common.currentUser.setOrderList(orderList);
             }
 
@@ -62,6 +61,8 @@ public class OrdersFragment extends Fragment {
         recyclerMenu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         mOrderList=Common.currentUser.getOrderList();
+        if(mOrderList!=null)
+            Collections.reverse(mOrderList);
         mAdapter = new OrdersAdapter(mOrderList);
         recyclerMenu.setLayoutManager(layoutManager);
         recyclerMenu.setAdapter(mAdapter);
