@@ -11,7 +11,6 @@ public class Customer {
     private String phoneno;
     private String orderCount;
     private String firebaseToken;
-    private String loggedIn;
     private ArrayList<Order> OrderList;
 
     public Customer() {
@@ -27,7 +26,6 @@ public class Customer {
         this.orderCount = OrderCount;
         this.OrderList = orderList;
         this.firebaseToken=firebaseToken;
-        this.loggedIn=loggedIn;
     }
 
     public ArrayList<Order> getOrderList() {
@@ -99,13 +97,5 @@ public class Customer {
 
     public void setFirebaseToken(String firebaseToken) {
         this.firebaseToken = firebaseToken;
-    }
-
-    public String getLoggedIn() {
-        return loggedIn;
-    }
-
-    public void setLoggedIn(String loggedIn) {
-        this.loggedIn = loggedIn;
     }
 }

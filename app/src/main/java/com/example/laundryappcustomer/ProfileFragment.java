@@ -71,7 +71,6 @@ public class ProfileFragment extends Fragment {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseReference1.child("loggedIn").setValue("false");
                 mAuth.signOut();
                 logOutAndChangeData();
                 new AsyncTask<Void, Void, Void>() {

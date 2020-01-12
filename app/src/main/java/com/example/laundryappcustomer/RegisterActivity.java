@@ -144,7 +144,18 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 mTextFullName.getText().clear();
                                 finish();
                                 Intent toLogin = new Intent(RegisterActivity.this, HomeActivity.class);
+                                SharedPreferences sharedPreferences= getSharedPreferences(Common.SHARED_PREFS,MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                Customer saveUser = Common.currentUser;
+                                Gson gson = new Gson();
+                                String json = gson.toJson(saveUser);
+                                editor.putString("CurrentUser", json);
+                                editor.putString(Common.PHONENO,mTextUsername.getText().toString());
+                                editor.putBoolean(Common.LOGIN,true);
+                                editor.apply();
+                                toLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(toLogin);
+                                finish();
 
                             }
                     }
@@ -152,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        mAuth.signOut();
                     }
                 });
             }
@@ -261,7 +272,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            mAuth.signOut();
                         }
                     });
 
