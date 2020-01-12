@@ -21,43 +21,38 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (loadData())
-            {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-//            FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-//            DatabaseReference myRef = firebaseDatabase.getReference("Customer");
-//            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
-//                        Common.currentUser = userSnapshot.getValue(Customer.class);
-//                        if(Common.currentUser.getPhoneno().equals(Common.phoneNo))
-//                            break;
-//                    }
-//                }
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                }
-//            });
-        else
-        {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        if (loadData()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }, 350);
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }, 350);
+
         }
     }
-    public boolean loadData()
-    {
-        Boolean state;
-        SharedPreferences sharedPreferences= getSharedPreferences(Common.SHARED_PREFS,MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("CurrentUser", "");
-        Common.currentUser = gson.fromJson(json, Customer.class);
-        Common.phoneNo = sharedPreferences.getString(Common.PHONENO,"");
-        state = sharedPreferences.getBoolean(Common.LOGIN,false);
-        return state;
-    }
+        public boolean loadData ()
+        {
+            Boolean state;
+            SharedPreferences sharedPreferences = getSharedPreferences(Common.SHARED_PREFS, MODE_PRIVATE);
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("CurrentUser", "");
+            Common.currentUser = gson.fromJson(json, Customer.class);
+            Common.phoneNo = sharedPreferences.getString(Common.PHONENO, "");
+            state = sharedPreferences.getBoolean(Common.LOGIN, false);
+            return state;
+        }
 }
