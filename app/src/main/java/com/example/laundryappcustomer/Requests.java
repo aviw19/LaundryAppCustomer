@@ -1,16 +1,30 @@
 package com.example.laundryappcustomer;
 
 public class Requests {
-    private Customer User;
-    private String Comments;
-    private String Status;
-    private String Weight="0";
-    private String OrderID;
-    private String Service;
-    private String PaymentStatus;
-    private String Merchant;
+    private String comments;
+    private String status;
+    private String weight ="0";
+    private String orderID;
+    private String services;
+    private String paymentstatus;
     private String timestamp;
-    private String Price;
+    private String price;
+    private String merchantComments;
+
+    public Requests() {
+    }
+
+    public Requests(String comments, String status, String weight, String OrderId, String services, String paymentstatus, String price, String timestamp, String merchantComments) {
+        this.comments = comments;
+        this.status = status;
+        this.weight = weight;
+        this.orderID = OrderId;
+        this.services = services;
+        this.paymentstatus = paymentstatus;
+        this.price =price;
+        this.timestamp=timestamp;
+        this.merchantComments=merchantComments;
+    }
 
     public String getMerchantComments() {
         return merchantComments;
@@ -19,22 +33,6 @@ public class Requests {
     public void setMerchantComments(String merchantComments) {
         this.merchantComments = merchantComments;
     }
-
-    private String merchantComments;
-
-    public Requests(String comments, String status, String weight,String OrderId,String service,String paymentstatus,String merchant,String price,String timestamp,String merchantComments) {
-        this.Comments = comments;
-        this.Status = status;
-        Weight = weight;
-        this.OrderID = OrderId;
-        Service = service;
-        PaymentStatus=paymentstatus;
-        this.Price=price;
-        Merchant=merchant;
-        this.timestamp=timestamp;
-        this.merchantComments=merchantComments;
-    }
-
     public String getTimestamp() {
         return timestamp;
     }
@@ -43,77 +41,60 @@ public class Requests {
         this.timestamp = timestamp;
     }
 
-    public String getPaymentStatus() {
-        return PaymentStatus;
+    public String getPaymentstatus() {
+        return paymentstatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        PaymentStatus = paymentStatus;
+    public void setPaymentstatus(String paymentstatus) {
+        this.paymentstatus = paymentstatus;
     }
 
-    public String getMerchant() {
-        return Merchant;
+
+    public String getservices() {
+        return services;
     }
 
-    public void setMerchant(String merchant) {
-        Merchant = merchant;
-    }
-
-    public String getService() {
-        return Service;
-    }
-
-    public void setService(String service) {
-        Service = service;
+    public void setService(String services) {
+        this.services = services;
     }
 
     public String getOrderID() {
-        return OrderID;
+        return orderID;
     }
 
     public void setOrderID(String orderID) {
-        OrderID = orderID;
+        this.orderID = orderID;
     }
 
-    public Requests() {
-    }
-
-    public Customer getUser() {
-        return User;
-    }
-
-    public void setUser(Customer user) {
-        User = user;
-    }
 
     public String getComments() {
-        return Comments;
+        return comments;
     }
 
     public void setComments(String comments) {
-        this.Comments = comments;
+        this.comments = comments;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        this.Status = status;
+        this.status = status;
     }
 
     public String getWeight() {
-        return Weight;
+        return weight;
     }
 
     public void setWeight(String weight) {
-        Weight = weight;
+        this.weight = weight;
     }
     public String getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(String price) {
-        Price = price;
+        this.price = price;
     }
 }

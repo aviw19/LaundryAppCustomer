@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment {
         mRequestOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
                 LayoutInflater inflater = getLayoutInflater();
                 final View alertLayout = inflater.inflate(R.layout.request_comments1, null);
                 mTextComment=alertLayout.findViewById(R.id.comments);
@@ -146,7 +147,7 @@ public class HomeFragment extends Fragment {
         mRequestOrderAndIron.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                final AlertDialog.Builder alert = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
                 LayoutInflater inflater = getLayoutInflater();
                 final View alertLayout = inflater.inflate(R.layout.request_comments2, null);
                 mTextComment=alertLayout.findViewById(R.id.comments);
@@ -233,7 +234,7 @@ public class HomeFragment extends Fragment {
     private void makingRequest1(String weight,String service) {
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
-        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash Only" + service,"NOT PAID",Common.merchantphone,price,ts,"");
+        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash Only" + service,"NOT PAID",price,ts,"");
         table_user.child(OrderID).setValue(mReq);
         String token=FirebaseTokeGeneration.token;
         table_user2.child("firebaseToken").setValue(token);
@@ -243,7 +244,7 @@ public class HomeFragment extends Fragment {
     private void makingRequest2(String weight,String service) {
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
-        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash and Iron" + service,"NOT PAID",Common.merchantphone,price,ts,"");
+        mReq = new Requests(mComment,"REQUESTED",weight,OrderID,"Wash and Iron" + service,"NOT PAID",price,ts,"");
         table_user.child(OrderID).setValue(mReq);
         String token=FirebaseTokeGeneration.token;
         table_user2.child("firebaseToken").setValue(token);
@@ -266,7 +267,7 @@ public class HomeFragment extends Fragment {
     private void updateOrderList(String weight,String service) {
         Long tsLong = System.currentTimeMillis();
         String ts = tsLong.toString();
-        Order n = new Order(mComment, "REQUESTED", weight, OrderID,price,mReq.getService(),"NOT PAID",Common.merchantphone,ts,"");
+        Order n = new Order(mComment, "REQUESTED", weight, OrderID,price,mReq.getservices(),"NOT PAID",Common.merchantphone,ts,"");
         ArrayList<Order> orderList = Common.currentUser.getOrderList();
         if (orderList != null) {
             orderList.add(n);
@@ -282,7 +283,7 @@ public class HomeFragment extends Fragment {
 
     private void changeInUser() {
                 table_user2.setValue(Common.currentUser);
-                SharedPreferences sharedPreferences= this.getActivity().getSharedPreferences(Common.SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(Common.SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 Gson gson = new Gson();
                 String json = gson.toJson(Common.currentUser);

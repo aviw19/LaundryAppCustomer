@@ -59,14 +59,13 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         myRef = firebaseDatabase.getReference("Customer");
+        settingCallBack();
         // Read from the database
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 phoneNumber = mPhoneNo.getText().toString();
-                boolean x = firebaseChecking();
-                if (!(x)) {
-                    settingCallBack();
+                firebaseChecking();
                     sendSms();
                     final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                     LayoutInflater inflater = getLayoutInflater();
@@ -91,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
                     alert.setView(alertLayout);
                     alert.show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Already Logged in from Another device,please logout  from there", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 

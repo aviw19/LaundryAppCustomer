@@ -2,16 +2,29 @@ package com.example.laundryappcustomer;
 
 
 public class Order {
-    private String Comments;
-    private String Status;
-    private String Weight="0";
-    private String OrderID;
-    private String Price;
-    private String Service;
+    private String comments;
+    private String status;
+    private String weight ="0";
+    private String orderID;
+    private String price;
+    private String services;
     private String timestamp;
-    private String PaymentStatus;
-    private String Merchant;
+    private String paymentstatus;
+    private String merchant;
+    private String merchantComments;
 
+    public Order(String comments, String status, String weight, String orderID, String price, String services, String paymentstatus, String merchant, String timestamp, String merchantComments) {
+        this.comments = comments;
+        this.status = status;
+        this.weight = weight;
+        this.orderID = orderID;
+        this.price = price;
+        this.services = services;
+        this.paymentstatus = paymentstatus;
+        this.merchant=merchant;
+        this.timestamp=timestamp;
+        this.merchantComments=merchantComments;
+    }
 
     public String getMerchantComments() {
         return merchantComments;
@@ -20,22 +33,6 @@ public class Order {
     public void setMerchantComments(String merchantComments) {
         this.merchantComments = merchantComments;
     }
-
-    private String merchantComments;
-
-    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus,String merchant,String timestamp,String merchantComments) {
-        Comments = comments;
-        Status = status;
-        Weight = weight;
-        OrderID = orderID;
-        Price = price;
-        Service = service;
-        PaymentStatus=paymentStatus;
-        Merchant=merchant;
-        this.timestamp=timestamp;
-        this.merchantComments=merchantComments;
-    }
-
     public String getTimestamp() {
         return timestamp;
     }
@@ -44,70 +41,70 @@ public class Order {
         this.timestamp = timestamp;
     }
 
-    public String getPaymentStatus() {
-        return PaymentStatus;
+    public String getPaymentstatus() {
+        return paymentstatus;
     }
 
     public String getMerchant() {
-        return Merchant;
+        return merchant;
     }
 
     public void setMerchant(String merchant) {
-        Merchant = merchant;
+        merchant = merchant;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        PaymentStatus = paymentStatus;
+    public void setPaymentstatus(String paymentstatus) {
+        this.paymentstatus = paymentstatus;
     }
 
-    public String getService() {
-        return Service;
+    public String getservices() {
+        return services;
     }
 
-    public void setService(String service) {
-        Service = service;
+    public void setservices(String service) {
+        this.services = service;
     }
 
     public String getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(String price) {
-        Price = price;
+        this.price = price;
     }
 
     public Order() {
     }
 
     public String getComments() {
-        return Comments;
+        return comments;
     }
 
     public void setComments(String comments) {
-        Comments = comments;
+        this.comments = comments;
     }
 
     public String getWeight() {
-        return Weight;
+        return weight;
     }
 
     public void setWeight(String weight) {
-        Weight = weight;
+        this.weight = weight;
     }
 
     public String getOrderID() {
-        return OrderID;
+        return orderID;
     }
 
     public void setOrderID(String orderID) {
-        OrderID = orderID;
+        this.orderID = orderID;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 }
