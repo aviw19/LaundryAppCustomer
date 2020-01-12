@@ -44,53 +44,62 @@ public class MainActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String verificationCode;
     private FirebaseAuth mAuth;
+    private boolean userExists = false;
+    private boolean userLoggedIn = false;
     private DatabaseReference myRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mPhoneNo = findViewById(R.id.phonenumber);
         mNextButton = findViewById(R.id.nextButton);
-        settingCallBack();
+
         //Firebase Initialization
-        FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-        mAuth=FirebaseAuth.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         myRef = firebaseDatabase.getReference("Customer");
         // Read from the database
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 phoneNumber = mPhoneNo.getText().toString();
-                sendSms();
-                final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                final View alertLayout = inflater.inflate(R.layout.otp, null);
-                mTextOtp=alertLayout.findViewById(R.id.Otptext);
-                alert.setPositiveButton("Verify", new DialogInterface.OnClickListener() {
+                boolean x = firebaseChecking();
+                if (!(x)) {
+                    settingCallBack();
+                    sendSms();
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View alertLayout = inflater.inflate(R.layout.otp, null);
+                    mTextOtp = alertLayout.findViewById(R.id.Otptext);
+                    alert.setPositiveButton("Verify", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
-                        String code = mTextOtp.getText().toString().trim();
-                        if (code.isEmpty() || code.length() != 6) {
-                            mTextOtp.setError("Enter valid code");
-                            mTextOtp.requestFocus();
-                            return;
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+                            String code = mTextOtp.getText().toString().trim();
+                            if (code.isEmpty() || code.length() != 6) {
+                                mTextOtp.setError("Enter valid code");
+                                mTextOtp.requestFocus();
+                                return;
+                            }
+
+                            //verifying the code entered manually
+                            verify(code);
                         }
+                    });
 
-                        //verifying the code entered manually
-                        verify(code);
-                    }
-                });
-
-                alert.setView(alertLayout);
-                alert.show();
+                    alert.setView(alertLayout);
+                    alert.show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Already Logged in from Another device,please logout  from there", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
     }
 
-    public void firebaseChecking() {
+    public boolean firebaseChecking() {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
 
@@ -98,27 +107,38 @@ public class MainActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-                if (dataSnapshot.child(phoneNumber).exists())
-                {
-                    for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
+                if (dataSnapshot.child(phoneNumber).exists()) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                         Common.currentUser = userSnapshot.getValue(Customer.class);
-                        if(Common.currentUser.getPhoneno().equals(phoneNumber))
+                        if (Common.currentUser.getPhoneno().equals(phoneNumber))
                             break;
                     }
-                    loginUser();
+                    if (Common.currentUser.getLoggedIn().equalsIgnoreCase("false")) {
+                        userLoggedIn = false;
+                        userExists = true;
+                    } else {
+                        userLoggedIn = true;
+                    }
+                } else {
+                    userExists = false;
+                    userLoggedIn = false;
                 }
-                else
-                    registerUser();
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Failed to read value
             }
         });
+        return userLoggedIn;
     }
 
-    private void loginUser() {
+
+
+
+    private void loginUser(){
+        myRef.child(Common.currentUser.getPhoneno()).child("loggedIn").setValue("true");
         Intent intent= new Intent(MainActivity.this,HomeActivity.class);
         SharedPreferences sharedPreferences= getSharedPreferences(Common.SHARED_PREFS,MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -171,7 +191,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    firebaseChecking();
+                    if(userExists)
+                    {
+                        loginUser();
+                    }
+                    else
+                    {
+                        registerUser();
+                    }
                 } else {
 
                     //verification unsuccessful.. display an error message

@@ -42,6 +42,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         private TextView txtService;
 
         public TextView txtPaymentStatus;
+        private TextView txtMerchantComment;
 
         public OrdersViewHolder(@NonNull View itemView,final OnItemClickListener listener) {
             super(itemView);
@@ -54,7 +55,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             timestamp = itemView.findViewById(R.id.timestamp);
             txtService = itemView.findViewById(R.id.order_service);
             txtPaymentStatus = itemView.findViewById(R.id.order_paymentstatus);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            txtMerchantComment=itemView.findViewById(R.id.merchantcomment);
+            mPayButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
@@ -97,12 +99,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             holder.timestamp.setText(DateFormat.getInstance().format(Long.parseLong(currentItem.getTimestamp())));
             holder.txtService.setText(currentItem.getService());
             holder.txtPaymentStatus.setText(currentItem.getPaymentStatus());
-            holder.mPayButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            holder.txtMerchantComment.setText(currentItem.getMerchantComments());
 
-                }
-            });
             }
 
     @Override

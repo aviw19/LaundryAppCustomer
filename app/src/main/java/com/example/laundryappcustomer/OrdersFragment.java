@@ -70,8 +70,8 @@ public class OrdersFragment extends Fragment {
         {
             @Override
             public void onPayClick(int position, String status,String payamt,String paymentstatus) {
-                if (!(paymentstatus.equalsIgnoreCase("Paid"))) {
-                    if ((status.equalsIgnoreCase("Accepted")))
+                if ((paymentstatus.equalsIgnoreCase("Not Paid"))) {
+                    if ((status.equalsIgnoreCase("Accepted"))||(status.equalsIgnoreCase("Processing"))||(status.equalsIgnoreCase("Processed"))||(status.equalsIgnoreCase("Completed")))
                     {
                         Intent intent = new Intent(getActivity(), UpiPayment.class);
                         intent.putExtra("stats",mOrderList.get(position).getStatus());

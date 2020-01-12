@@ -11,12 +11,13 @@ public class Customer {
     private String phoneno;
     private String orderCount;
     private String firebaseToken;
+    private String loggedIn;
     private ArrayList<Order> OrderList;
 
     public Customer() {
     }
 
-    Customer(String name, String collegeId, String emailId, String hostelno, String roomNo, String phoneno, String OrderCount,ArrayList<Order> orderList,String firebaseToken) {
+    Customer(String name, String collegeId, String emailId, String hostelno, String roomNo, String phoneno, String OrderCount,ArrayList<Order> orderList,String firebaseToken,String loggedIn) {
         Name = name;
         CollegeId = collegeId;
         this.emailId = emailId;
@@ -26,6 +27,7 @@ public class Customer {
         this.orderCount = OrderCount;
         this.OrderList = orderList;
         this.firebaseToken=firebaseToken;
+        this.loggedIn=loggedIn;
     }
 
     public ArrayList<Order> getOrderList() {
@@ -97,5 +99,13 @@ public class Customer {
 
     public void setFirebaseToken(String firebaseToken) {
         this.firebaseToken = firebaseToken;
+    }
+
+    public String getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(String loggedIn) {
+        this.loggedIn = loggedIn;
     }
 }

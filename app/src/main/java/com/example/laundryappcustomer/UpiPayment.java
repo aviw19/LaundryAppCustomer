@@ -114,7 +114,7 @@ public class UpiPayment extends AppCompatActivity {
             if (status.equals("success")) {
                 //Code to handle successful transaction here.
                 Toast.makeText(UpiPayment.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
-                    databaseReference.child(Common.phoneNo).child("orderList").child(String.valueOf(Integer.parseInt(orderno)-1)).child("paymentstatus").setValue("Paid");
+                    databaseReference.child(Common.phoneNo).child("orderList").child(String.valueOf(Integer.parseInt(orderno)-1)).child("paymentStatus").setValue("Paid");
                     databaseReference2.child(Common.phoneNo+(Integer.parseInt(orderno)-1)).child("paymentStatus").setValue("Paid");
                     updateOrderList("PAID");
                 Log.d("UPI", "responseStr: "+approvalRefNo);

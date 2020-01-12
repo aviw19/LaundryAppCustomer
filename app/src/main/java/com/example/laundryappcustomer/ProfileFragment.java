@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.zxing.WriterException;
@@ -39,12 +41,16 @@ public class ProfileFragment extends Fragment {
     public TextView mtextroomno;
     public TextView mtexthostel;
     public TextView mEditButton;
+    private FirebaseDatabase databaseReference;
+    private DatabaseReference databaseReference1;
     public View rootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         mAuth=FirebaseAuth.getInstance();
+        databaseReference= FirebaseDatabase.getInstance();
+        databaseReference1=databaseReference.getReference().child("Customer").child(Common.currentUser.getPhoneno());
         assignment();
         QRGEncoder qrgEncoder = new QRGEncoder(Common.currentUser.getPhoneno(), null, QRGContents.Type.TEXT,100);
         try {
@@ -65,6 +71,7 @@ public class ProfileFragment extends Fragment {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                databaseReference1.child("loggedIn").setValue("false");
                 mAuth.signOut();
                 logOutAndChangeData();
                 new AsyncTask<Void, Void, Void>() {

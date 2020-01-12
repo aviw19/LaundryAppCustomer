@@ -9,6 +9,7 @@
     app:cardCornerRadius="5dp">
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/order_Orderid_heading"
@@ -170,15 +171,38 @@
             android:layout_height="20dp"
             android:layout_below="@+id/order_paymentstatus"
             android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/timestamp_heading"
+            android:layout_toEndOf="@id/timestamp_heading"
             android:background="@android:color/white"
             android:textColor="@android:color/black"
             android:text="Date???Time"
             />
+        <TextView
+            android:id="@+id/merchantcomment_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/timestamp_heading"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:text="Merchant Comment :  "
+            />
+        <TextView
+            android:id="@+id/merchantcomment"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/timestamp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/merchantcomment_heading"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:text="Comment"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_below="@+id/timestamp_heading"
+            android:layout_below="@+id/merchantcomment_heading"
             android:layout_alignParentBottom="true"
             android:background="@android:color/white">
             <TextView

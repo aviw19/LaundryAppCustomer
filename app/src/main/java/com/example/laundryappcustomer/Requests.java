@@ -12,7 +12,17 @@ public class Requests {
     private String timestamp;
     private String Price;
 
-    public Requests(String comments, String status, String weight,String OrderId,String service,String paymentstatus,String merchant,String price,String timestamp) {
+    public String getMerchantComments() {
+        return merchantComments;
+    }
+
+    public void setMerchantComments(String merchantComments) {
+        this.merchantComments = merchantComments;
+    }
+
+    private String merchantComments;
+
+    public Requests(String comments, String status, String weight,String OrderId,String service,String paymentstatus,String merchant,String price,String timestamp,String merchantComments) {
         this.Comments = comments;
         this.Status = status;
         Weight = weight;
@@ -22,6 +32,7 @@ public class Requests {
         this.Price=price;
         Merchant=merchant;
         this.timestamp=timestamp;
+        this.merchantComments=merchantComments;
     }
 
     public String getTimestamp() {

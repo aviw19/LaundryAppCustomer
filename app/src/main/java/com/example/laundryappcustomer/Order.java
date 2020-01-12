@@ -12,7 +12,18 @@ public class Order {
     private String PaymentStatus;
     private String Merchant;
 
-    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus,String merchant,String timestamp) {
+
+    public String getMerchantComments() {
+        return merchantComments;
+    }
+
+    public void setMerchantComments(String merchantComments) {
+        this.merchantComments = merchantComments;
+    }
+
+    private String merchantComments;
+
+    public Order(String comments, String status, String weight, String orderID,String price,String service,String paymentStatus,String merchant,String timestamp,String merchantComments) {
         Comments = comments;
         Status = status;
         Weight = weight;
@@ -22,6 +33,7 @@ public class Order {
         PaymentStatus=paymentStatus;
         Merchant=merchant;
         this.timestamp=timestamp;
+        this.merchantComments=merchantComments;
     }
 
     public String getTimestamp() {
