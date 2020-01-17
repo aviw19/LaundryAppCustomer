@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                         message = "Invalid code entered...";
                     }
 
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
                     snackbar.setAction("Dismiss", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
