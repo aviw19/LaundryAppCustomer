@@ -65,6 +65,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 EditBottomSheet bottomsheet = new EditBottomSheet();
+                assert getFragmentManager() != null;
                 bottomsheet.show(getFragmentManager(),"exampleBottomSheet");
             }
         });
