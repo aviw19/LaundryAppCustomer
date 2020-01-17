@@ -75,7 +75,7 @@ public class OrdersFragment extends Fragment {
                     {
                         Intent intent = new Intent(getActivity(), UpiPayment.class);
                         intent.putExtra("stats",mOrderList.get(position).getStatus());
-                        intent.putExtra("orderno",String.valueOf(position+1));
+                        intent.putExtra("orderno",mOrderList.get(position).getOrderID().substring(10));
                         intent.putExtra("price", mOrderList.get(position).getPrice());
                         startActivity(intent);
                     }

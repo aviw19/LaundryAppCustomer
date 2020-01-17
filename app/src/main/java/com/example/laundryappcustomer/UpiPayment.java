@@ -35,7 +35,7 @@ public class UpiPayment extends AppCompatActivity {
         orderno=intent.getStringExtra("orderno");
         String merchantUpi=Common.merchantUpi;
         String merchantName=Common.merchantname;
-        payUsingUpi(price, merchantName, "paying agnaist order id : " + orderno, merchantUpi);
+        payUsingUpi(price, merchantName, "paying against order no : " + orderno, merchantUpi);
 
     }
     private void payUsingUpi(String amount,String name,String note,String upiid){
@@ -114,8 +114,8 @@ public class UpiPayment extends AppCompatActivity {
             if (status.equals("success")) {
                 //Code to handle successful transaction here.
                 Toast.makeText(UpiPayment.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
-                    databaseReference.child(Common.phoneNo).child("orderList").child(String.valueOf(Integer.parseInt(orderno)-1)).child("paymentstatus").setValue("Paid");
-                    databaseReference2.child(Common.phoneNo+(Integer.parseInt(orderno)-1)).child("paymentstatus").setValue("Paid");
+                    databaseReference.child(Common.phoneNo).child("orderList").child(String.valueOf(Integer.parseInt(orderno))).child("paymentstatus").setValue("Paid");
+                    databaseReference2.child(Common.phoneNo+orderno).child("paymentstatus").setValue("Paid");
                     updateOrderList("PAID");
                 Log.d("UPI", "responseStr: "+approvalRefNo);
                 taketohome();
@@ -165,9 +165,10 @@ public class UpiPayment extends AppCompatActivity {
     }
     private void updateOrderList(String paymentstatus) {
         ArrayList<Order> orderList = Common.currentUser.getOrderList();
-        Order currentItem = orderList.get(Integer.parseInt(orderno)-1);
+        int position = orderList.size()-Integer.parseInt(orderno)-1;
+        Order currentItem = orderList.get(position);
         currentItem.setPaymentstatus(paymentstatus);
-        orderList.set(Integer.parseInt(orderno)-1,currentItem);
+        orderList.set(position,currentItem);
         Common.currentUser.setOrderList(orderList);
     }
 }
